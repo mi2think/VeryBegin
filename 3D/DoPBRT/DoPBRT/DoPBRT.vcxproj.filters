@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="includes">
+      <UniqueIdentifier>{0842d50b-4aef-48e6-b5df-c28784dd4788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{b1517818-2371-467f-9773-f2c02f29097b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="includes\core">
+      <UniqueIdentifier>{5b525853-c599-463b-b142-fa36ce12e34a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\core">
+      <UniqueIdentifier>{330fb964-6347-4066-b02e-22e4a37acd31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\main">
+      <UniqueIdentifier>{131fa26d-7996-4c87-a204-b546bfbf4c68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="includes\mylib">
+      <UniqueIdentifier>{df1f2c7d-58c0-446c-b649-3f8eb8decbfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\mylib">
+      <UniqueIdentifier>{14874a0a-22c8-4896-a70c-c8c38a9f44e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="includes\renderers">
+      <UniqueIdentifier>{570ec659-6351-4af6-b474-bcce7a82bc87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\renderers">
+      <UniqueIdentifier>{5def17ca-62bc-4b47-af3d-c8a8e1046a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="includes\shapes">
+      <UniqueIdentifier>{4d50960d-df4f-42cd-8f5e-726683a50213}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\shapes">
+      <UniqueIdentifier>{62ca1d40-8bd8-4aa8-ad07-62759adaf238}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="core\renderer.cpp">
+      <Filter>sources\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\scene.cpp">
+      <Filter>sources\core</Filter>
+    </ClCompile>
+    <ClCompile Include="main\pbrt.cpp">
+      <Filter>sources\main</Filter>
+    </ClCompile>
+    <ClCompile Include="mylib\DpLog.cpp">
+      <Filter>sources\mylib</Filter>
+    </ClCompile>
+    <ClCompile Include="renderers\samplerrenderer.cpp">
+      <Filter>sources\renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="core\integrator.cpp">
+      <Filter>sources\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\sampler.cpp">
+      <Filter>sources\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\parallel.cpp">
+      <Filter>sources\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\transform.cpp">
+      <Filter>sources\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\diffgeom.cpp">
+      <Filter>sources\core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\shape.cpp">
+      <Filter>sources\core</Filter>
+    </ClCompile>
+    <ClCompile Include="shapes\sphere.cpp">
+      <Filter>sources\shapes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mylib\DpLog.h">
+      <Filter>includes\mylib</Filter>
+    </ClInclude>
+    <ClInclude Include="mylib\DpAABB.h">
+      <Filter>includes\mylib</Filter>
+    </ClInclude>
+    <ClInclude Include="mylib\DpVector2.h">
+      <Filter>includes\mylib</Filter>
+    </ClInclude>
+    <ClInclude Include="mylib\DpVector3.h">
+      <Filter>includes\mylib</Filter>
+    </ClInclude>
+    <ClInclude Include="mylib\DpVector4.h">
+      <Filter>includes\mylib</Filter>
+    </ClInclude>
+    <ClInclude Include="mylib\DpMath.h">
+      <Filter>includes\mylib</Filter>
+    </ClInclude>
+    <ClInclude Include="mylib\DpMatrix33.h">
+      <Filter>includes\mylib</Filter>
+    </ClInclude>
+    <ClInclude Include="mylib\DpMatrix43.h">
+      <Filter>includes\mylib</Filter>
+    </ClInclude>
+    <ClInclude Include="mylib\DpMatrix44.h">
+      <Filter>includes\mylib</Filter>
+    </ClInclude>
+    <ClInclude Include="renderers\samplerrenderer.h">
+      <Filter>includes\renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="core\api.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\parser.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\pbrt.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\primitive.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\renderer.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\scene.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\integrator.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\volume.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\sampler.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\camera.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\film.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\parallel.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\geometry.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\transform.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="mylib\DpQuaternion.h">
+      <Filter>includes\mylib</Filter>
+    </ClInclude>
+    <ClInclude Include="core\diffgeom.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\memory.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\shape.h">
+      <Filter>includes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="shapes\sphere.h">
+      <Filter>includes\shapes</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
