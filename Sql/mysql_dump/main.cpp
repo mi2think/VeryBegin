@@ -34,10 +34,12 @@ void Query(DumpSql& dumpSql, std::string& op)
 
 		if (address == "all")
 		{
+			std::cout << "总宕机记录数\n";
 			dumpSql.QueryAllAddressCount();
 		}
 		else
 		{
+			std::cout << "该地址宕机记录数\n";
 			dumpSql.QueryAddressCount(address.c_str());
 		}
 	}
@@ -78,10 +80,12 @@ void Query(DumpSql& dumpSql, std::string& op)
 			std::cin >> version;
 
 			dumpSql.SetVersion(version.c_str());
+			std::cout << "设置版本号成功 " << version.c_str() << "\n";
 		}
 		else
 		{
 			dumpSql.SetTableName(tableName.c_str());
+			std::cout << "设置表名成功 " << tableName.c_str() << "\n";
 		}
 	}
 }

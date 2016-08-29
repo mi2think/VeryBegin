@@ -28,12 +28,15 @@ bool DumpSql::Init()
 {
 	mySql_ = mysql_init(NULL);
 
+	std::cout << "连接 " << host_ << " @ " << user_ << " ...";
 
 	if (! mysql_real_connect(mySql_, host_, user_, passwd_, dbname_, 3306, NULL, 0))
 	{
+		std::cout << "失败" << "\nError:" << mysql_error(mySql_);
 		return false;
 	}
 
+	std::cout << "成功\n";
 	isConnected_ = true;
 
 	GetLastVersion();

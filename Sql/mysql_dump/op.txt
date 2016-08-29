@@ -1,6 +1,20 @@
+1、查询指定地址
+命令： query address dir
+例如： query 0x00c1e12d e:\
 
+2、查询指定地址宕机数
+命令： count address
 
+3、查询指定地址log
+命令： log address
 
+4、查询前X名的宕机地址
+命令： top X dir
 
+5、查询空指针
+命令： query empty dir
 
+6、设置表名字
+默认查询今天的表
+命令： set ErrorDump20140106
 
