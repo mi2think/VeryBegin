@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="math">
+      <UniqueIdentifier>{55fe987b-0ee8-4028-96e1-a321d88d298c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shape">
+      <UniqueIdentifier>{abae7dab-ae77-4f9b-9def-689b6d51adba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{a37d3a02-e8c2-4117-a0af-c21e2d7d0db2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="math\math_fwd.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\vector3.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\onb.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="shape\shape.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="shape\sphere.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="shape\triangle.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="core\array.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\camera.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\image.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\log.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ray.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\rgb.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="math\rng.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="core\valuenoise.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="math\vector2.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="core\perlinnoise.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\texture.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\simpletexture.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\noisetexture.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\marbletexture.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\imagetexture.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="shape\uvsphere.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="core\vertex.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\mesh.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="shape\meshtriangle.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="math\matrix44.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\matrix33.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\vector4.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="shape\instance.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="shape\bbox.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="shape\bvh.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="math\onb.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="shape\sphere.cpp">
+      <Filter>shape</Filter>
+    </ClCompile>
+    <ClCompile Include="shape\triangle.cpp">
+      <Filter>shape</Filter>
+    </ClCompile>
+    <ClCompile Include="core\image.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\log.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="math\rng.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\math.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="shape\uvsphere.cpp">
+      <Filter>shape</Filter>
+    </ClCompile>
+    <ClCompile Include="shape\meshtriangle.cpp">
+      <Filter>shape</Filter>
+    </ClCompile>
+    <ClCompile Include="shape\instance.cpp">
+      <Filter>shape</Filter>
+    </ClCompile>
+    <ClCompile Include="shape\bbox.cpp">
+      <Filter>shape</Filter>
+    </ClCompile>
+    <ClCompile Include="shape\bvh.cpp">
+      <Filter>shape</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
