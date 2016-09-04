@@ -1,0 +1,3 @@
+[submodule "3D/Sims"]
+	path = 3D/Sims
+	url = git@github.com:mi2think/Sims.git
