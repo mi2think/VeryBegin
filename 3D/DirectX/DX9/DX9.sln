@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX9", "DX9\DX9.vcxproj", "{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_Cube", "Demo\03_Cube\03_Cube.vcxproj", "{E0483459-27CF-4AC8-82E9-E250E6301CC1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04_Teapot", "Demo\04_Teapot\04_Teapot.vcxproj", "{546FC135-4860-4000-A679-1936303827AB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05_D3DXCreate", "Demo\05_D3DXCreate\05_D3DXCreate.vcxproj", "{97FCBF87-758C-4D3B-AE01-9A1A96399D37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,14 @@ Global
 		{546FC135-4860-4000-A679-1936303827AB}.Release|x64.Build.0 = Release|x64
 		{546FC135-4860-4000-A679-1936303827AB}.Release|x86.ActiveCfg = Release|Win32
 		{546FC135-4860-4000-A679-1936303827AB}.Release|x86.Build.0 = Release|Win32
+		{97FCBF87-758C-4D3B-AE01-9A1A96399D37}.Debug|x64.ActiveCfg = Debug|x64
+		{97FCBF87-758C-4D3B-AE01-9A1A96399D37}.Debug|x64.Build.0 = Debug|x64
+		{97FCBF87-758C-4D3B-AE01-9A1A96399D37}.Debug|x86.ActiveCfg = Debug|Win32
+		{97FCBF87-758C-4D3B-AE01-9A1A96399D37}.Debug|x86.Build.0 = Debug|Win32
+		{97FCBF87-758C-4D3B-AE01-9A1A96399D37}.Release|x64.ActiveCfg = Release|x64
+		{97FCBF87-758C-4D3B-AE01-9A1A96399D37}.Release|x64.Build.0 = Release|x64
+		{97FCBF87-758C-4D3B-AE01-9A1A96399D37}.Release|x86.ActiveCfg = Release|Win32
+		{97FCBF87-758C-4D3B-AE01-9A1A96399D37}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
