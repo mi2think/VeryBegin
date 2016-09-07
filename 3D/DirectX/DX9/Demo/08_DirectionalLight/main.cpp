@@ -36,7 +36,7 @@ public:
 		dx9::CHECK_HR = D3DXCreateCylinder(dx9::g_pD3DD, 0.5f, 0.5f, 2.0f, 20, 20, &objs_[3], 0);
 	
 		// build world matrix
-		D3DXMatrixTranslation(&mtxs_[0], 0.0f, 0.0f, 0.0f);
+		D3DXMatrixTranslation(&mtxs_[0], 0.0f, 2.0f, 0.0f);
 		D3DXMatrixTranslation(&mtxs_[1], 0.0f, -2.0f, 0.0f);
 		D3DXMatrixTranslation(&mtxs_[2], -3.0f, 0.0f, 0.0f);
 		D3DXMatrixTranslation(&mtxs_[3], 3.0f, 0.0f, 0.0f);
