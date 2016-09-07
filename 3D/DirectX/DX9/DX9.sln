@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "07_LitPyramid", "Demo\07_Li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "08_DirectionalLight", "Demo\08_DirectionalLight\08_DirectionalLight.vcxproj", "{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "09_PointLight", "Demo\09_PointLight\09_PointLight.vcxproj", "{922B1A12-5791-4A74-B827-810DCFDD33FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -101,6 +103,14 @@ Global
 		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Release|x64.Build.0 = Release|x64
 		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Release|x86.ActiveCfg = Release|Win32
 		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Release|x86.Build.0 = Release|Win32
+		{922B1A12-5791-4A74-B827-810DCFDD33FF}.Debug|x64.ActiveCfg = Debug|x64
+		{922B1A12-5791-4A74-B827-810DCFDD33FF}.Debug|x64.Build.0 = Debug|x64
+		{922B1A12-5791-4A74-B827-810DCFDD33FF}.Debug|x86.ActiveCfg = Debug|Win32
+		{922B1A12-5791-4A74-B827-810DCFDD33FF}.Debug|x86.Build.0 = Debug|Win32
+		{922B1A12-5791-4A74-B827-810DCFDD33FF}.Release|x64.ActiveCfg = Release|x64
+		{922B1A12-5791-4A74-B827-810DCFDD33FF}.Release|x64.Build.0 = Release|x64
+		{922B1A12-5791-4A74-B827-810DCFDD33FF}.Release|x86.ActiveCfg = Release|Win32
+		{922B1A12-5791-4A74-B827-810DCFDD33FF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
