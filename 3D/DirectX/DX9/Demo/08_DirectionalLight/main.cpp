@@ -97,10 +97,10 @@ public:
 			angle_ += ts_ * 0.5f;
 			break;
 		case KEY_UP:
-			cameraH_ += ts_ * 0.5f;
+			cameraH_ += ts_ * 5.0f;
 			break;
 		case KEY_DOWN:
-			cameraH_ -= ts_ * 0.5f;
+			cameraH_ -= ts_ * 5.0f;
 			break;
 		default:
 			break;
