@@ -14,13 +14,11 @@ using namespace sims;
 
 #define GenMaterial(m, a, d, s, e, p) { m.Ambient = a; m.Diffuse = d, m.Specular = s; m.Emissive = e; m.Power = p; } 
 
-class PointLight : public DemoApp<dx9::Window>
+class SpotLight : public DemoApp<dx9::Window>
 {
 public:
-	PointLight()
-		: angle_(3.0f * D3DX_PI / 2.0f)
-		, cameraH_(5.0f)
-		, ts_(0.0f)
+	SpotLight()
+		: ts_(0.0f)
 	{
 		memset(objs_, 0, sizeof(objs_));
 	}
@@ -43,40 +41,49 @@ public:
 
 		// setup material
 		// red
-		GenMaterial(mtrls_[0], red, red, red, black, 2.0f);
+		GenMaterial(mtrls_[0], red, red, red, black, 20.0f);
 		// blue
-		GenMaterial(mtrls_[1], blue, blue, blue, black, 2.0f);
+		GenMaterial(mtrls_[1], blue, blue, blue, black, 20.0f);
 		// green
-		GenMaterial(mtrls_[2], green, green, green, black, 2.0f);
+		GenMaterial(mtrls_[2], green, green, green, black, 20.0f);
 		// yellow
-		GenMaterial(mtrls_[3], yellow, yellow, yellow, black, 2.0f);
+		GenMaterial(mtrls_[3], yellow, yellow, yellow, black, 20.0f);
 
-		// setup spot light
-		D3DLIGHT9 light;
-		memset(&light, 0, sizeof(light));
-		light.Type = D3DLIGHT_POINT;
-		light.Diffuse = white;
-		light.Specular = white * 0.6f;
-		light.Ambient = white * 0.6f;
-		light.Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		light.Range = 1000.0f;
-		light.Falloff = 1.0f;
-		light.Attenuation0 = 1.0f;
-		light.Attenuation1 = 0.0f;
-		light.Attenuation2 = 0.0f;
+		// setup spot light_
+		memset(&light_, 0, sizeof(light_));
+		light_.Type = D3DLIGHT_SPOT;
+		light_.Diffuse = white;
+		light_.Specular = white * 0.6f;
+		light_.Position = D3DXVECTOR3(0.0f, 0.0f, -5.0f);
+		light_.Direction = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+		light_.Range = 1000.0f;
+		light_.Falloff = 1.0f;
+		light_.Attenuation0 = 1.0f;
+		light_.Attenuation1 = 0.0f;
+		light_.Attenuation2 = 0.0f;
+		light_.Theta = 0.4f;
+		light_.Phi = 0.9f;
 
-		// set and enable light
+		// set and enable light_
 		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light);
+		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light_);
 		dx9::CHECK_HR = dx9::g_pD3DD->LightEnable(0, true);
 
 		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, false);
+		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
+
+		// view
+		D3DXVECTOR3 position(0.0f, 0.0f, -5.0f);
+		D3DXVECTOR3 target(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
+		D3DXMATRIX view;
+		D3DXMatrixLookAtLH(&view, &position, &target, &up);
+		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// projection
 		D3DXMATRIX proj;
 		D3DXMatrixPerspectiveFovLH(&proj,
-			D3DX_PI * 0.25f,
+			D3DX_PI * 0.5f,
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
@@ -86,7 +93,7 @@ public:
 	virtual bool OnEvent(const Event& event)
 	{
 		EventDispatch dispatch(event);
-		dispatch.Dispatch(this, &PointLight::OnKeyEvent);
+		dispatch.Dispatch(this, &SpotLight::OnKeyEvent);
 		return dispatch.GetResult();
 	}
 
@@ -96,34 +103,29 @@ public:
 		switch (key)
 		{
 		case KEY_LEFT:
-			angle_ -= ts_ * 0.5f;
+			light_.Direction.x -= ts_ * 0.5f;
 			break;
 		case KEY_RIGHT:
-			angle_ += ts_ * 0.5f;
+			light_.Direction.x += ts_ * 0.5f;
 			break;
 		case KEY_UP:
-			cameraH_ += ts_ * 5.0f;
+			light_.Direction.y -= ts_ * 0.5f;
 			break;
 		case KEY_DOWN:
-			cameraH_ -= ts_ * 5.0f;
+			light_.Direction.y += ts_ * 0.5f;
 			break;
 		default:
 			break;
 		}
+
+		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light_);
+		dx9::CHECK_HR = dx9::g_pD3DD->LightEnable(0, true);
 		return true;
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
 		ts_ = timestep.GetSeconds();
-
-		// view
-		D3DXVECTOR3 position(cosf(angle_) * 10.0f, cameraH_, sinf(angle_) * 10.0f);
-		D3DXVECTOR3 target(0.0f, 0.0f, 0.0f);
-		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
-		D3DXMATRIX view;
-		D3DXMatrixLookAtLH(&view, &position, &target, &up);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// draw scene
 		dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0);
@@ -153,16 +155,15 @@ private:
 	ID3DXMesh* objs_[MAX_OBJS];
 	D3DXMATRIX mtxs_[MAX_OBJS];
 	D3DMATERIAL9 mtrls_[MAX_OBJS];
+	D3DLIGHT9 light_;
 
-	float angle_;
-	float cameraH_;
 	float ts_; // last frame second
 };
 
 int main()
 {
-	PointLight app;
-	app.Create(640, 480, "Point Light");
+	SpotLight app;
+	app.Create(640, 480, "Spot Light");
 	app.Loop();
 	return 0;
 }
