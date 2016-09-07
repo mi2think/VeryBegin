@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX9", "DX9\DX9.vcxproj", "{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06_ColorTriangle", "Demo\06_ColorTriangle\06_ColorTriangle.vcxproj", "{84F01E2D-072C-4A50-94CB-5CCF6ECA7034}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "07_LitPyramid", "Demo\07_LitPyramid\07_LitPyramid.vcxproj", "{099D2A91-957B-457C-AC7B-B8D9E4A043B0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "08_DirectionalLight", "Demo\08_DirectionalLight\08_DirectionalLight.vcxproj", "{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,14 @@ Global
 		{099D2A91-957B-457C-AC7B-B8D9E4A043B0}.Release|x64.Build.0 = Release|x64
 		{099D2A91-957B-457C-AC7B-B8D9E4A043B0}.Release|x86.ActiveCfg = Release|Win32
 		{099D2A91-957B-457C-AC7B-B8D9E4A043B0}.Release|x86.Build.0 = Release|Win32
+		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Debug|x64.ActiveCfg = Debug|x64
+		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Debug|x64.Build.0 = Debug|x64
+		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Debug|x86.ActiveCfg = Debug|Win32
+		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Debug|x86.Build.0 = Debug|Win32
+		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Release|x64.ActiveCfg = Release|x64
+		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Release|x64.Build.0 = Release|x64
+		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Release|x86.ActiveCfg = Release|Win32
+		{75EF18EC-AD8F-4F70-9B9D-CA6584DE438E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
