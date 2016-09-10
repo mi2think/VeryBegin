@@ -51,7 +51,7 @@ public:
 		// yellow
 		GenMaterial(mtrls_[3], yellow, yellow, yellow, black, 2.0f);
 
-		// setup spot light
+		// setup point light
 		D3DLIGHT9 light;
 		memset(&light, 0, sizeof(light));
 		light.Type = D3DLIGHT_POINT;
