@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX9", "DX9\DX9.vcxproj", "{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "10_SpotLight", "Demo\10_SpotLight\10_SpotLight.vcxproj", "{BD4C6694-A3D1-412A-B185-30D6F61F4F4D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "11_TexQuad", "Demo\11_TexQuad\11_TexQuad.vcxproj", "{43552D46-63DC-4558-ACD9-5FAA6A58A4E1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "12_TexCube", "Demo\12_TexCube\12_TexCube.vcxproj", "{C1266CA0-ABC7-4CDA-AEB7-554F39BA077A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +133,14 @@ Global
 		{43552D46-63DC-4558-ACD9-5FAA6A58A4E1}.Release|x64.Build.0 = Release|x64
 		{43552D46-63DC-4558-ACD9-5FAA6A58A4E1}.Release|x86.ActiveCfg = Release|Win32
 		{43552D46-63DC-4558-ACD9-5FAA6A58A4E1}.Release|x86.Build.0 = Release|Win32
+		{C1266CA0-ABC7-4CDA-AEB7-554F39BA077A}.Debug|x64.ActiveCfg = Debug|x64
+		{C1266CA0-ABC7-4CDA-AEB7-554F39BA077A}.Debug|x64.Build.0 = Debug|x64
+		{C1266CA0-ABC7-4CDA-AEB7-554F39BA077A}.Debug|x86.ActiveCfg = Debug|Win32
+		{C1266CA0-ABC7-4CDA-AEB7-554F39BA077A}.Debug|x86.Build.0 = Debug|Win32
+		{C1266CA0-ABC7-4CDA-AEB7-554F39BA077A}.Release|x64.ActiveCfg = Release|x64
+		{C1266CA0-ABC7-4CDA-AEB7-554F39BA077A}.Release|x64.Build.0 = Release|x64
+		{C1266CA0-ABC7-4CDA-AEB7-554F39BA077A}.Release|x86.ActiveCfg = Release|Win32
+		{C1266CA0-ABC7-4CDA-AEB7-554F39BA077A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
