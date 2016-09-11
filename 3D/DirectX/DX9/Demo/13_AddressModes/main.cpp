@@ -136,6 +136,13 @@ public:
 		return true;
 	}
 
+	virtual void OnDestroy()
+	{
+		SAFE_RELEASE(vb_);
+		SAFE_RELEASE(ib_);
+		SAFE_RELEASE(tex_);
+	}
+
 private:
 	IDirect3DVertexBuffer9* vb_;
 	IDirect3DIndexBuffer9* ib_;

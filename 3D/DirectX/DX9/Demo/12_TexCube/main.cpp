@@ -173,6 +173,7 @@ public:
 	{
 		SAFE_RELEASE(vb_);
 		SAFE_RELEASE(ib_);
+		SAFE_RELEASE(tex_);
 	}
 
 private:
