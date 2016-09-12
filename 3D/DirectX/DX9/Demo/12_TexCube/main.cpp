@@ -58,7 +58,7 @@ public:
 		GeometryGen::VBDesc vbDesc((uint8*)&v, sizeof(Vertex));
 		vbDesc.SetVOffset(GeometryGen::VT_UV, offsetof(Vertex, uv));
 		vbDesc.SetVOffset(GeometryGen::VT_Normal, offsetof(Vertex, normal));
-		GeometryGen::GenUVCube(2, vbDesc, GeometryGen::IBDesc((uint8*)&i, GeometryGen::IBDesc::Index16), GeometryGen::VT_Position | GeometryGen::VT_Normal | GeometryGen::VT_UV);
+		GeometryGen::GenSkyBox(2, 2, 2, vbDesc, GeometryGen::IBDesc((uint8*)&i, GeometryGen::IBDesc::Index16), GeometryGen::VT_Position | GeometryGen::VT_Normal | GeometryGen::VT_UV);
 
 		// fill buffer
 		Vertex* _v = nullptr;
