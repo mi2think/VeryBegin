@@ -37,6 +37,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "15_TexAlpha", "Demo\15_TexA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "16_StencilMirror", "Demo\16_StencilMirror\16_StencilMirror.vcxproj", "{9D863F63-CD43-4419-8760-39342D840AB3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17_StencilShadow", "Demo\17_StencilShadow\17_StencilShadow.vcxproj", "{4D6AEF49-190D-4F92-B452-AFFB5B4AB35E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -181,6 +183,14 @@ Global
 		{9D863F63-CD43-4419-8760-39342D840AB3}.Release|x64.Build.0 = Release|x64
 		{9D863F63-CD43-4419-8760-39342D840AB3}.Release|x86.ActiveCfg = Release|Win32
 		{9D863F63-CD43-4419-8760-39342D840AB3}.Release|x86.Build.0 = Release|Win32
+		{4D6AEF49-190D-4F92-B452-AFFB5B4AB35E}.Debug|x64.ActiveCfg = Debug|x64
+		{4D6AEF49-190D-4F92-B452-AFFB5B4AB35E}.Debug|x64.Build.0 = Debug|x64
+		{4D6AEF49-190D-4F92-B452-AFFB5B4AB35E}.Debug|x86.ActiveCfg = Debug|Win32
+		{4D6AEF49-190D-4F92-B452-AFFB5B4AB35E}.Debug|x86.Build.0 = Debug|Win32
+		{4D6AEF49-190D-4F92-B452-AFFB5B4AB35E}.Release|x64.ActiveCfg = Release|x64
+		{4D6AEF49-190D-4F92-B452-AFFB5B4AB35E}.Release|x64.Build.0 = Release|x64
+		{4D6AEF49-190D-4F92-B452-AFFB5B4AB35E}.Release|x86.ActiveCfg = Release|Win32
+		{4D6AEF49-190D-4F92-B452-AFFB5B4AB35E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
