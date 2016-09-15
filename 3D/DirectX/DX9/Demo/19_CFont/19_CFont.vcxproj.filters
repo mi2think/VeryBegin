@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{6645c3c8-e45c-4453-9fe8-d70b99d3f1c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{186d3d4a-741e-4ea6-a917-aedc86f07e44}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="d3dutil.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="dxutil.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="d3dfont.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="d3dutil.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="dxutil.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dfont.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
