@@ -9,8 +9,8 @@
 #define D3DFONT_H
 #include <tchar.h>
 
-#include "DirectX/Include/d3d9.h"
-#include "DirectX/Include/d3dx9.h"
+#include "d3d9.h"
+#include "d3dx9.h"
 
 // Font creation flags
 #define D3DFONT_BOLD        0x0001

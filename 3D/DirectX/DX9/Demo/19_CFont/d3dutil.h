@@ -7,12 +7,8 @@
 //-----------------------------------------------------------------------------
 #ifndef D3DUTIL_H
 #define D3DUTIL_H
-//modify for include
-//#include <D3D9.h>
-//#include <D3DX9Math.h>
-#include "DirectX/Include/d3d9.h"
-#include "DirectX/Include/d3dx9.h"
-#include "DirectX/Include/d3dx9math.h"
+#include <D3D9.h>
+#include <D3DX9Math.h>
 
 
 
