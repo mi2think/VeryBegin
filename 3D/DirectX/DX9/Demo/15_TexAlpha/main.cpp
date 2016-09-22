@@ -4,7 +4,7 @@
 #include "core/key_event.h"
 #include "utils/demo_app.h"
 #include "utils/geometry_gen.h"
-#include "graphics_api/sims_dx9.h"
+#include "graphics_api/sims_sdk_dx9.h"
 using namespace sims;
 
 class TexAlpha : public DemoApp<dx9::Window>

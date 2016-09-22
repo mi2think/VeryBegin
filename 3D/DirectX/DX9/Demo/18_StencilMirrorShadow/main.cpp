@@ -1,8 +1,7 @@
 #include "sims.h"
 #include "core/key_event.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_dx9.h"
-#include "graphics_api/sims_dx9_geometry_def.h"
+#include "graphics_api/sims_sdk_dx9.h"
 using namespace sims;
 
 class StencilMirrorShadow : public DemoApp<dx9::Window>

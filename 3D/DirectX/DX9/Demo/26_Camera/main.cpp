@@ -6,8 +6,7 @@
 #include "core/log.h"
 #include "core/key_event.h"
 #include "core/input_state.h"
-#include "graphics_api/sims_dx9.h"
-#include "graphics_api/sims_dx9_geometry_def.h"
+#include "graphics_api/sims_sdk_dx9.h"
 #include "utils/demo_app.h"
 using namespace sims;
 

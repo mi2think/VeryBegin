@@ -1,7 +1,7 @@
 #include "sims.h"
 #include "core/log.h"
 #include "math/vector3.h"
-#include "graphics_api/sims_dx9.h"
+#include "graphics_api/sims_sdk_dx9.h"
 #include "utils/demo_app.h"
 using namespace sims;
 

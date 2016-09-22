@@ -5,7 +5,7 @@
 #include "core/key_event.h"
 #include "utils/demo_app.h"
 #include "utils/geometry_gen.h"
-#include "graphics_api/sims_dx9.h"
+#include "graphics_api/sims_sdk_dx9.h"
 using namespace sims;
 
 #define red   D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f)

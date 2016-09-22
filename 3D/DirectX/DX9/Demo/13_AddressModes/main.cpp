@@ -3,7 +3,7 @@
 #include "math/vector2.h"
 #include "math/vector3.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_dx9.h"
+#include "graphics_api/sims_sdk_dx9.h"
 using namespace sims;
 
 class AddressModes : public DemoApp<dx9::Window>
