@@ -80,13 +80,6 @@ public:
 	{
 		if (dx9::g_pD3DD)
 		{
-			//
-			float ts = timestep.GetSeconds();
-			if (ts > 1.0f)
-			{
-				ts = 1.0f;
-			}
-
 			// update teapot
 			static float r = 0.0f;
 			static float v = 1.0f;
@@ -98,13 +91,13 @@ public:
 			//transform the bounding sphere to match the teapots position in the world
 			boundSphere.center_ = Vector3f(cosf(angle) * r, sinf(angle) * r, 10.0f);
 
-			r += v * ts;
+			r += v * timestep.GetSeconds();
 			if (r > 8.0f)
 				v = -v;
 			if (r <= 0.0f)
 				v = -v;
 
-			angle += 1.0f * D3DX_PI * ts;
+			angle += 1.0f * D3DX_PI * timestep.GetSeconds();
 			if (angle >= 2.0f * D3DX_PI)
 				angle = 0.0f;
 
