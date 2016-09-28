@@ -74,9 +74,9 @@ public:
 			else if (InputState::GetKeyState(KEY_RIGHT))
 				angle += 0.5f * ts;
 			else if (InputState::GetKeyState(KEY_UP))
-				height += 0.5f * ts;
+				height += 5.0f * ts;
 			else if (InputState::GetKeyState(KEY_DOWN))
-				height -= 0.5f * ts;
+				height -= 5.0f * ts;
 
 			D3DXVECTOR3 position(cosf(angle) * 10.0f, height, sinf(angle) * 10.0f);
 			D3DXVECTOR3 target(0.0f, 0.0f, 0.0f);
