@@ -77,6 +77,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "35_CartoonRenderingOutline"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "36_MultiTexture", "Demo\36_MultiTexture\36_MultiTexture.vcxproj", "{62E9C074-4C35-458E-88C0-5603CD6E44CB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "37_LightingAndTexturing", "Demo\37_LightingAndTexturing\37_LightingAndTexturing.vcxproj", "{516DAED7-3F81-4399-BFC4-EF8639483625}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -381,6 +383,14 @@ Global
 		{62E9C074-4C35-458E-88C0-5603CD6E44CB}.Release|x64.Build.0 = Release|x64
 		{62E9C074-4C35-458E-88C0-5603CD6E44CB}.Release|x86.ActiveCfg = Release|Win32
 		{62E9C074-4C35-458E-88C0-5603CD6E44CB}.Release|x86.Build.0 = Release|Win32
+		{516DAED7-3F81-4399-BFC4-EF8639483625}.Debug|x64.ActiveCfg = Debug|x64
+		{516DAED7-3F81-4399-BFC4-EF8639483625}.Debug|x64.Build.0 = Debug|x64
+		{516DAED7-3F81-4399-BFC4-EF8639483625}.Debug|x86.ActiveCfg = Debug|Win32
+		{516DAED7-3F81-4399-BFC4-EF8639483625}.Debug|x86.Build.0 = Debug|Win32
+		{516DAED7-3F81-4399-BFC4-EF8639483625}.Release|x64.ActiveCfg = Release|x64
+		{516DAED7-3F81-4399-BFC4-EF8639483625}.Release|x64.Build.0 = Release|x64
+		{516DAED7-3F81-4399-BFC4-EF8639483625}.Release|x86.ActiveCfg = Release|Win32
+		{516DAED7-3F81-4399-BFC4-EF8639483625}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
