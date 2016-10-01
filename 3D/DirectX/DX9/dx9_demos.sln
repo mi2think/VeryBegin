@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX9", "DX9\DX9.vcxproj", "{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_DX9Init", "Demo\01_DX9Init\01_DX9Init.vcxproj", "{68C297CA-860E-4E73-AA22-BB4F4E34EE7E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02_Triangle", "Demo\02_Triangle\02_Triangle.vcxproj", "{4E55DC8F-7261-416D-93CE-937EC6253DD9}"
@@ -91,14 +89,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}.Debug|x64.ActiveCfg = Debug|x64
-		{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}.Debug|x64.Build.0 = Debug|x64
-		{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}.Debug|x86.ActiveCfg = Debug|Win32
-		{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}.Debug|x86.Build.0 = Debug|Win32
-		{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}.Release|x64.ActiveCfg = Release|x64
-		{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}.Release|x64.Build.0 = Release|x64
-		{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}.Release|x86.ActiveCfg = Release|Win32
-		{2BDFD5DD-352E-4DAF-8316-CFB0B30DAFBF}.Release|x86.Build.0 = Release|Win32
 		{68C297CA-860E-4E73-AA22-BB4F4E34EE7E}.Debug|x64.ActiveCfg = Debug|x64
 		{68C297CA-860E-4E73-AA22-BB4F4E34EE7E}.Debug|x64.Build.0 = Debug|x64
 		{68C297CA-860E-4E73-AA22-BB4F4E34EE7E}.Debug|x86.ActiveCfg = Debug|Win32
