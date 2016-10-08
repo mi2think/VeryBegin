@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04_Lights", "dx9_samples\04
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05_Textures", "dx9_samples\05_Textures\05_Textures.vcxproj", "{5968586C-5E31-4DA8-A813-E17DB936F2D1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06_Meshs", "dx9_samples\06_Meshs\06_Meshs.vcxproj", "{9CAC56B8-7502-434A-823C-423E22DC99F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{5968586C-5E31-4DA8-A813-E17DB936F2D1}.Release|x64.Build.0 = Release|x64
 		{5968586C-5E31-4DA8-A813-E17DB936F2D1}.Release|x86.ActiveCfg = Release|Win32
 		{5968586C-5E31-4DA8-A813-E17DB936F2D1}.Release|x86.Build.0 = Release|Win32
+		{9CAC56B8-7502-434A-823C-423E22DC99F6}.Debug|x64.ActiveCfg = Debug|x64
+		{9CAC56B8-7502-434A-823C-423E22DC99F6}.Debug|x64.Build.0 = Debug|x64
+		{9CAC56B8-7502-434A-823C-423E22DC99F6}.Debug|x86.ActiveCfg = Debug|Win32
+		{9CAC56B8-7502-434A-823C-423E22DC99F6}.Debug|x86.Build.0 = Debug|Win32
+		{9CAC56B8-7502-434A-823C-423E22DC99F6}.Release|x64.ActiveCfg = Release|x64
+		{9CAC56B8-7502-434A-823C-423E22DC99F6}.Release|x64.Build.0 = Release|x64
+		{9CAC56B8-7502-434A-823C-423E22DC99F6}.Release|x86.ActiveCfg = Release|Win32
+		{9CAC56B8-7502-434A-823C-423E22DC99F6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
