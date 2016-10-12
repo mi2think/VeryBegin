@@ -10,4 +10,12 @@
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="box_vs.hlsl">
+      <Filter>src</Filter>
+    </FxCompile>
+    <FxCompile Include="box_ps.hlsl">
+      <Filter>src</Filter>
+    </FxCompile>
+  </ItemGroup>
 </Project>
