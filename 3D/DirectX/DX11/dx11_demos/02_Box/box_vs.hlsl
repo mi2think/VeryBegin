@@ -15,5 +15,5 @@ VOut main( float3 pos   : POSITION,
 	VOut o;
 	o.position = mul(float4(pos, 1.0f), worldViewProjM);
 	o.color = color;
-	return pos;
+	return o;
 }
