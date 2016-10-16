@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_OpenAWindow", "ogl_samples\01_OpenAWindow\01_OpenAWindow.vcxproj", "{793DC9CC-FBB9-4EF1-BD8A-5330A9BB6A75}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02_HelloDot", "ogl_samples\02_HelloDot\02_HelloDot.vcxproj", "{3FD82458-0E44-483E-97FB-C2006F44DE83}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_FirstTriangle", "ogl_samples\03_FirstTriangle\03_FirstTriangle.vcxproj", "{7DFF9B40-0092-4C8A-9A19-958587A0AADB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,14 @@ Global
 		{3FD82458-0E44-483E-97FB-C2006F44DE83}.Release|x64.Build.0 = Release|x64
 		{3FD82458-0E44-483E-97FB-C2006F44DE83}.Release|x86.ActiveCfg = Release|Win32
 		{3FD82458-0E44-483E-97FB-C2006F44DE83}.Release|x86.Build.0 = Release|Win32
+		{7DFF9B40-0092-4C8A-9A19-958587A0AADB}.Debug|x64.ActiveCfg = Debug|x64
+		{7DFF9B40-0092-4C8A-9A19-958587A0AADB}.Debug|x64.Build.0 = Debug|x64
+		{7DFF9B40-0092-4C8A-9A19-958587A0AADB}.Debug|x86.ActiveCfg = Debug|Win32
+		{7DFF9B40-0092-4C8A-9A19-958587A0AADB}.Debug|x86.Build.0 = Debug|Win32
+		{7DFF9B40-0092-4C8A-9A19-958587A0AADB}.Release|x64.ActiveCfg = Release|x64
+		{7DFF9B40-0092-4C8A-9A19-958587A0AADB}.Release|x64.Build.0 = Release|x64
+		{7DFF9B40-0092-4C8A-9A19-958587A0AADB}.Release|x86.ActiveCfg = Release|Win32
+		{7DFF9B40-0092-4C8A-9A19-958587A0AADB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
