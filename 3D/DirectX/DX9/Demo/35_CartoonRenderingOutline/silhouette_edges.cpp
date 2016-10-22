@@ -27,7 +27,7 @@ void SilhouetteEdges::GenEdgeVertices(ID3DXMesh* mesh, ID3DXBuffer* adjBuffer)
 	// 3 edges per face
 	// 4 vertices per edge
 	numVertices_ = mesh->GetNumFaces() * 3 * 4;
-	dx9::CHECK_HR = device_->CreateVertexBuffer(numVertices_ * sizeof(EdgeVertex),
+	d3d9::CHECK_HR = device_->CreateVertexBuffer(numVertices_ * sizeof(EdgeVertex),
 		D3DUSAGE_WRITEONLY,
 		0, // using vertex declaration
 		D3DPOOL_MANAGED,
@@ -35,10 +35,10 @@ void SilhouetteEdges::GenEdgeVertices(ID3DXMesh* mesh, ID3DXBuffer* adjBuffer)
 		0);
 
 	MeshVertex* vertices = nullptr;
-	dx9::CHECK_HR = mesh->LockVertexBuffer(0, (void**)&vertices);
+	d3d9::CHECK_HR = mesh->LockVertexBuffer(0, (void**)&vertices);
 
 	WORD* indices = nullptr;
-	dx9::CHECK_HR = mesh->LockIndexBuffer(0, (void**)&indices);
+	d3d9::CHECK_HR = mesh->LockIndexBuffer(0, (void**)&indices);
 
 	EdgeVertex* edgeV = nullptr;
 	vb_->Lock(0, 0, (void**)&edgeV, 0);
@@ -109,9 +109,9 @@ void SilhouetteEdges::GenEdgeVertices(ID3DXMesh* mesh, ID3DXBuffer* adjBuffer)
 		edgeV += 4;
 	}
 
-	dx9::CHECK_HR = vb_->Unlock();
-	dx9::CHECK_HR = mesh->UnlockVertexBuffer();
-	dx9::CHECK_HR = mesh->UnlockIndexBuffer();
+	d3d9::CHECK_HR = vb_->Unlock();
+	d3d9::CHECK_HR = mesh->UnlockVertexBuffer();
+	d3d9::CHECK_HR = mesh->UnlockIndexBuffer();
 }
 
 void SilhouetteEdges::GetFaceNormal(DWORD faceIndex,
@@ -187,7 +187,7 @@ void SilhouetteEdges::GenEdgeIndices(ID3DXMesh* mesh)
 	DWORD numEdges = mesh->GetNumFaces() * 3;
 	numFaces_ = numEdges * 2;
 
-	dx9::CHECK_HR = device_->CreateIndexBuffer(numFaces_ * 3 * sizeof(WORD),
+	d3d9::CHECK_HR = device_->CreateIndexBuffer(numFaces_ * 3 * sizeof(WORD),
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX16,
 		D3DPOOL_MANAGED,
@@ -195,7 +195,7 @@ void SilhouetteEdges::GenEdgeIndices(ID3DXMesh* mesh)
 		0);
 	
 	WORD* indices = nullptr;
-	dx9::CHECK_HR = ib_->Lock(0, 0, (void**)&indices, 0);
+	d3d9::CHECK_HR = ib_->Lock(0, 0, (void**)&indices, 0);
 	// 0       1
 	// *-------*
 	// | edge  |
@@ -216,7 +216,7 @@ void SilhouetteEdges::GenEdgeIndices(ID3DXMesh* mesh)
 		indices[i * 6 + 4] = i * 4 + 3;
 		indices[i * 6 + 5] = i * 4 + 2;
 	}
-	dx9::CHECK_HR = ib_->Unlock();
+	d3d9::CHECK_HR = ib_->Unlock();
 }
 
 void SilhouetteEdges::CreateVertexDecl()
@@ -231,15 +231,15 @@ void SilhouetteEdges::CreateVertexDecl()
 		D3DDECL_END()
 	};
 
-	dx9::CHECK_HR = device_->CreateVertexDeclaration(decl, &decl_);
+	d3d9::CHECK_HR = device_->CreateVertexDeclaration(decl, &decl_);
 }
 
 void SilhouetteEdges::Render()
 {
-	dx9::CHECK_HR = device_->SetVertexDeclaration(decl_);
-	dx9::CHECK_HR = device_->SetStreamSource(0, vb_, 0, sizeof(EdgeVertex));
-	dx9::CHECK_HR = device_->SetIndices(ib_);
-	dx9::CHECK_HR = device_->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,
+	d3d9::CHECK_HR = device_->SetVertexDeclaration(decl_);
+	d3d9::CHECK_HR = device_->SetStreamSource(0, vb_, 0, sizeof(EdgeVertex));
+	d3d9::CHECK_HR = device_->SetIndices(ib_);
+	d3d9::CHECK_HR = device_->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,
 		0,
 		0,
 		numVertices_,

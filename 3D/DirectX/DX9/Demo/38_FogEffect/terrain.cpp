@@ -78,7 +78,7 @@ bool Terrain::ReadRawFile(const string& heightMapFilename)
 
 void Terrain::GenerateVertices()
 {
-	vertices_ = new dx9::VertexUV[numVertices_];
+	vertices_ = new d3d9::VertexUV[numVertices_];
 
 	float xStep = width_ / (slices_ - 1);
 	float zStep = depth_ / (stacks_ - 1);
@@ -96,7 +96,7 @@ void Terrain::GenerateVertices()
 		{
 			uint32 index = j * slices_ + i;
 			uint8* v = (uint8*)(vertices_ + index);
-			Vector3f* p = (Vector3f*)(v + offsetof(dx9::VertexUV, p));
+			Vector3f* p = (Vector3f*)(v + offsetof(d3d9::VertexUV, p));
 			p->x = xOrigin + i * xStep;
 			p->z = zOrigin + j * zStep;
 			// since we generate vertices from left bottom
@@ -104,22 +104,22 @@ void Terrain::GenerateVertices()
 			// we need map correct height map index
 			p->y = GetHeightmapEntry(stacks_ - 1 - j, i);
 
-			Vector2f* uv = (Vector2f*)(v + offsetof(dx9::VertexUV, uv));
+			Vector2f* uv = (Vector2f*)(v + offsetof(d3d9::VertexUV, uv));
 			uv->x = uOrigin + i * uStep;
 			uv->y = vOrigin + j * vStep;
 		}
 	}
 
-	dx9::CHECK_HR = device_->CreateVertexBuffer(numVertices_ * sizeof(dx9::VertexUV),
+	d3d9::CHECK_HR = device_->CreateVertexBuffer(numVertices_ * sizeof(d3d9::VertexUV),
 		D3DUSAGE_WRITEONLY,
-		dx9::VertexUV::FVF,
+		d3d9::VertexUV::FVF,
 		D3DPOOL_MANAGED,
 		&vb_,
 		0);
-	dx9::VertexUV* v = nullptr;
-	dx9::CHECK_HR = vb_->Lock(0, 0, (void**)&v, 0);
-	memcpy(v, vertices_, numVertices_ * sizeof(dx9::VertexUV));
-	dx9::CHECK_HR = vb_->Unlock();
+	d3d9::VertexUV* v = nullptr;
+	d3d9::CHECK_HR = vb_->Lock(0, 0, (void**)&v, 0);
+	memcpy(v, vertices_, numVertices_ * sizeof(d3d9::VertexUV));
+	d3d9::CHECK_HR = vb_->Unlock();
 }
 
 void Terrain::GenerateIndices()
@@ -147,21 +147,21 @@ void Terrain::GenerateIndices()
 		}
 	}
 
-	dx9::CHECK_HR = device_->CreateIndexBuffer(numIndices_ * sizeof(uint16),
+	d3d9::CHECK_HR = device_->CreateIndexBuffer(numIndices_ * sizeof(uint16),
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX16,
 		D3DPOOL_MANAGED,
 		&ib_,
 		0);
 	WORD* i = nullptr;
-	dx9::CHECK_HR = ib_->Lock(0, 0, (void**)&i, 0);
+	d3d9::CHECK_HR = ib_->Lock(0, 0, (void**)&i, 0);
 	memcpy(i, indices_, numIndices_ * sizeof(uint16));
-	dx9::CHECK_HR = ib_->Unlock();
+	d3d9::CHECK_HR = ib_->Unlock();
 }
 
 bool Terrain::LoadTexture(const string& filename)
 {
-	dx9::CHECK_HR = D3DXCreateTextureFromFile(device_, filename.c_str(), &tex_);
+	d3d9::CHECK_HR = D3DXCreateTextureFromFile(device_, filename.c_str(), &tex_);
 	return tex_ != nullptr;
 }
 
@@ -176,7 +176,7 @@ bool Terrain::GenerateTexture(const Vector3f& dirLight)
 	uint32 texHeight = stacks_ - 1;
 
 	// create an empty texture
-	dx9::CHECK_HR = D3DXCreateTexture(device_,
+	d3d9::CHECK_HR = D3DXCreateTexture(device_,
 		texWidth,
 		texHeight,
 		0, // create a complete mipmap chain
@@ -185,13 +185,13 @@ bool Terrain::GenerateTexture(const Vector3f& dirLight)
 		D3DPOOL_MANAGED,
 		&tex_);
 	D3DSURFACE_DESC desc;
-	dx9::CHECK_HR = tex_->GetLevelDesc(0, &desc);
+	d3d9::CHECK_HR = tex_->GetLevelDesc(0, &desc);
 	if (desc.Format != D3DFMT_X8R8G8B8)
 		return false;
 
 	// diffuse color
 	D3DLOCKED_RECT lockedRect;
-	dx9::CHECK_HR = tex_->LockRect(0, &lockedRect, 0, 0);
+	d3d9::CHECK_HR = tex_->LockRect(0, &lockedRect, 0, 0);
 	uint8* imageData = (uint8*)lockedRect.pBits;
 	for (uint32 i = 0; i < texHeight; ++i)
 	{
@@ -219,13 +219,13 @@ bool Terrain::GenerateTexture(const Vector3f& dirLight)
 		}
 		imageData += lockedRect.Pitch;
 	}
-	dx9::CHECK_HR = tex_->UnlockRect(0);
+	d3d9::CHECK_HR = tex_->UnlockRect(0);
 	D3DXSaveTextureToFile("gen_tex.png", D3DXIFF_PNG, tex_, 0);
 
 	if (!LightTerrain(dirLight))
 		return false;
 
-	dx9::CHECK_HR = D3DXFilterTexture(tex_, 0, 0, D3DX_DEFAULT);
+	d3d9::CHECK_HR = D3DXFilterTexture(tex_, 0, 0, D3DX_DEFAULT);
 	D3DXSaveTextureToFile("gen_ligting_tex.png", D3DXIFF_PNG, tex_, 0);
 
 	return true;
@@ -235,19 +235,19 @@ void Terrain::Draw(const D3DXMATRIX& world, bool drawWireframe)
 {
 	if (device_)
 	{
-		dx9::CHECK_HR = device_->SetTransform(D3DTS_WORLD, &world);
-		dx9::CHECK_HR = device_->SetStreamSource(0, vb_, 0, sizeof(dx9::VertexUV));
-		dx9::CHECK_HR = device_->SetFVF(dx9::VertexUV::FVF);
-		dx9::CHECK_HR = device_->SetIndices(ib_);
-		dx9::CHECK_HR = device_->SetTexture(0, tex_);
+		d3d9::CHECK_HR = device_->SetTransform(D3DTS_WORLD, &world);
+		d3d9::CHECK_HR = device_->SetStreamSource(0, vb_, 0, sizeof(d3d9::VertexUV));
+		d3d9::CHECK_HR = device_->SetFVF(d3d9::VertexUV::FVF);
+		d3d9::CHECK_HR = device_->SetIndices(ib_);
+		d3d9::CHECK_HR = device_->SetTexture(0, tex_);
 
 		// turn off lighting since we are lighting it self
-		dx9::CHECK_HR = device_->SetRenderState(D3DRS_LIGHTING, false);
+		d3d9::CHECK_HR = device_->SetRenderState(D3DRS_LIGHTING, false);
 
 		if (!drawWireframe)
 		{
 
-			dx9::CHECK_HR = device_->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,
+			d3d9::CHECK_HR = device_->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,
 				0,
 				0,
 				numVertices_,
@@ -256,31 +256,31 @@ void Terrain::Draw(const D3DXMATRIX& world, bool drawWireframe)
 		}
 		else
 		{
-			dx9::CHECK_HR = device_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			dx9::CHECK_HR = device_->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,
+			d3d9::CHECK_HR = device_->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+			d3d9::CHECK_HR = device_->DrawIndexedPrimitive(D3DPT_TRIANGLELIST,
 				0,
 				0,
 				numVertices_,
 				0,
 				numTriangles_);
-			dx9::CHECK_HR = device_->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+			d3d9::CHECK_HR = device_->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		}
 
 
-		dx9::CHECK_HR = device_->SetRenderState(D3DRS_LIGHTING, true);
+		d3d9::CHECK_HR = device_->SetRenderState(D3DRS_LIGHTING, true);
 	}
 }
 
 bool Terrain::LightTerrain(const Vector3f& dirLight)
 {
 	D3DSURFACE_DESC desc;
-	dx9::CHECK_HR = tex_->GetLevelDesc(0, &desc);
+	d3d9::CHECK_HR = tex_->GetLevelDesc(0, &desc);
 	if (desc.Format != D3DFMT_X8R8G8B8)
 		return false;
 
 	// modulate diffuse color with light color
 	D3DLOCKED_RECT lockedRect;
-	dx9::CHECK_HR = tex_->LockRect(0, &lockedRect, 0, 0);
+	d3d9::CHECK_HR = tex_->LockRect(0, &lockedRect, 0, 0);
 	uint8* imageData = (uint8*)lockedRect.pBits;
 	for (uint32 i = 0; i < desc.Height; ++i)
 	{
@@ -296,7 +296,7 @@ bool Terrain::LightTerrain(const Vector3f& dirLight)
 		}
 		imageData += lockedRect.Pitch;
 	}
-	dx9::CHECK_HR = tex_->UnlockRect(0);
+	d3d9::CHECK_HR = tex_->UnlockRect(0);
 	return true;
 }
 

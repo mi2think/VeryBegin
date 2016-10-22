@@ -2,10 +2,10 @@
 #include "core/log.h"
 #include "core/input_state.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 using namespace sims;
 
-class Transform : public DemoApp<dx9::Window>
+class Transform : public DemoApp<d3d9::Window>
 {
 public:
 	Transform()
@@ -17,14 +17,14 @@ public:
 	virtual void OnCreate()
 	{
 		// create geometry
-		dx9::CHECK_HR = D3DXCreateTeapot(dx9::g_pD3DD,
+		d3d9::CHECK_HR = D3DXCreateTeapot(d3d9::g_pD3DD,
 			&teapot_,
 			nullptr);
 
 		// compile shader
 		ID3DXBuffer* shaderBuffer = nullptr;
 		ID3DXBuffer* errorBuffer = nullptr;
-		dx9::CHECK_HR = D3DXCompileShaderFromFile("transform.hlsl",
+		d3d9::CHECK_HR = D3DXCompileShaderFromFile("transform.hlsl",
 			0,
 			0,
 			"main",
@@ -44,7 +44,7 @@ public:
 		}
 
 		// create vertex shader
-		dx9::CHECK_HR = dx9::g_pD3DD->CreateVertexShader((DWORD*)shaderBuffer->GetBufferPointer(), &prog_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->CreateVertexShader((DWORD*)shaderBuffer->GetBufferPointer(), &prog_);
 		SAFE_RELEASE(shaderBuffer);
 
 		// get handles
@@ -57,12 +57,12 @@ public:
 			1.0f,
 			1000.0f);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			// update scene
 			static float angle = (3.0f * D3DX_PI) / 2.0f;
@@ -85,17 +85,17 @@ public:
 			D3DXMatrixLookAtLH(&view, &position, &target, &up);
 
 			D3DXMATRIX viewProj = view * projM_;
-			constTable_->SetMatrix(dx9::g_pD3DD, handle_, &viewProj);
+			constTable_->SetMatrix(d3d9::g_pD3DD, handle_, &viewProj);
 
 			// render
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
-			dx9::CHECK_HR = dx9::g_pD3DD->SetVertexShader(prog_);
-			dx9::CHECK_HR = teapot_->DrawSubset(0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetVertexShader(prog_);
+			d3d9::CHECK_HR = teapot_->DrawSubset(0);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

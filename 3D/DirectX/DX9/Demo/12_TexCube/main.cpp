@@ -2,7 +2,7 @@
 #include "math/vector2.h"
 #include "math/vector3.h"
 #include "core/key_event.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 #include "utils/geometry_gen.h"
 #include "utils/demo_app.h"
 using namespace sims;
@@ -12,7 +12,7 @@ using namespace sims;
 
 #define GenMaterial(m, a, d, s, e, p) { m.Ambient = a; m.Diffuse = d, m.Specular = s; m.Emissive = e; m.Power = p; } 
 
-class TexCube : public DemoApp<dx9::Window>
+class TexCube : public DemoApp<d3d9::Window>
 {
 public:
 	struct Vertex
@@ -37,16 +37,16 @@ public:
 
 	virtual void OnCreate()
 	{
-		DemoApp<dx9::Window>::OnCreate();
+		DemoApp<d3d9::Window>::OnCreate();
 
 		// create vertex buffer and index buffer
-		dx9::CHECK_HR = dx9::g_pD3DD->CreateVertexBuffer(14 * sizeof(Vertex),
+		d3d9::CHECK_HR = d3d9::g_pD3DD->CreateVertexBuffer(14 * sizeof(Vertex),
 			D3DUSAGE_WRITEONLY,
 			Vertex::FVF,
 			D3DPOOL_MANAGED,
 			&vb_,
 			0);
-		dx9::CHECK_HR = dx9::g_pD3DD->CreateIndexBuffer(6 * 2 * 3 * sizeof(WORD),
+		d3d9::CHECK_HR = d3d9::g_pD3DD->CreateIndexBuffer(6 * 2 * 3 * sizeof(WORD),
 			D3DUSAGE_WRITEONLY,
 			D3DFMT_INDEX16,
 			D3DPOOL_MANAGED,
@@ -62,21 +62,21 @@ public:
 
 		// fill buffer
 		Vertex* _v = nullptr;
-		dx9::CHECK_HR = vb_->Lock(0, 0, (void**)&_v, 0);
+		d3d9::CHECK_HR = vb_->Lock(0, 0, (void**)&_v, 0);
 		memcpy(_v, v, sizeof(v));
-		dx9::CHECK_HR = vb_->Unlock();
+		d3d9::CHECK_HR = vb_->Unlock();
 
 		WORD* _i = nullptr;
-		dx9::CHECK_HR = ib_->Lock(0, 0, (void**)&_i, 0);
+		d3d9::CHECK_HR = ib_->Lock(0, 0, (void**)&_i, 0);
 		memcpy(_i, i, sizeof(i));
-		dx9::CHECK_HR = ib_->Unlock();
+		d3d9::CHECK_HR = ib_->Unlock();
 
 		// texture
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD, "sky.png", &tex_);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, tex_);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD, "sky.png", &tex_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, tex_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 		// setup directional light
 		D3DLIGHT9 light;
@@ -88,13 +88,13 @@ public:
 		light.Direction = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
 
 		// set and enable light
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light);
-		dx9::CHECK_HR = dx9::g_pD3DD->LightEnable(0, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetLight(0, &light);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->LightEnable(0, true);
 
 		// material
 		GenMaterial(material_, white, white, white, black, 2.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&material_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&material_);
 
 		// camera
 		D3DXVECTOR3 position(0.0f, 0.0f, -5.0f);
@@ -102,7 +102,7 @@ public:
 		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 		D3DXMATRIX view;
 		D3DXMatrixLookAtLH(&view, &position, &target, &up);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// projection
 		D3DXMATRIX proj;
@@ -111,7 +111,7 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
@@ -124,19 +124,19 @@ public:
 		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 		D3DXMATRIX view;
 		D3DXMatrixLookAtLH(&view, &position, &target, &up);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// draw cube
-		dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
-		dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+		d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetStreamSource(0, vb_, 0, sizeof(Vertex));
-		dx9::CHECK_HR = dx9::g_pD3DD->SetIndices(ib_);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetFVF(Vertex::FVF);
-		dx9::CHECK_HR = dx9::g_pD3DD->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 14, 0, 12);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetStreamSource(0, vb_, 0, sizeof(Vertex));
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetIndices(ib_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetFVF(Vertex::FVF);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 14, 0, 12);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-		dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+		d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 	}
 
 	virtual bool OnEvent(const Event& event)

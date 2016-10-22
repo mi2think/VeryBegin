@@ -2,10 +2,10 @@
 #include "core/log.h"
 #include "core/input_state.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 using namespace sims;
 
-class CartoonEffect : public DemoApp<dx9::Window>
+class CartoonEffect : public DemoApp<d3d9::Window>
 {
 public:
 	CartoonEffect()
@@ -18,10 +18,10 @@ public:
 	virtual void OnCreate()
 	{
 		// create objs
-		dx9::CHECK_HR = D3DXCreateTeapot(dx9::g_pD3DD, &objs_[0], 0);
-		dx9::CHECK_HR = D3DXCreateSphere(dx9::g_pD3DD, 1.0f, 20, 20, &objs_[1], 0);
-		dx9::CHECK_HR = D3DXCreateTorus(dx9::g_pD3DD, 0.5f, 1.0f, 20, 20, &objs_[2], 0);
-		dx9::CHECK_HR = D3DXCreateCylinder(dx9::g_pD3DD, 0.5f, 0.5f, 2.0f, 20, 20, &objs_[3], 0);
+		d3d9::CHECK_HR = D3DXCreateTeapot(d3d9::g_pD3DD, &objs_[0], 0);
+		d3d9::CHECK_HR = D3DXCreateSphere(d3d9::g_pD3DD, 1.0f, 20, 20, &objs_[1], 0);
+		d3d9::CHECK_HR = D3DXCreateTorus(d3d9::g_pD3DD, 0.5f, 1.0f, 20, 20, &objs_[2], 0);
+		d3d9::CHECK_HR = D3DXCreateCylinder(d3d9::g_pD3DD, 0.5f, 0.5f, 2.0f, 20, 20, &objs_[3], 0);
 
 		D3DXMatrixTranslation(&matrixs_[0], 0.0f, 2.0f, 0.0f);
 		D3DXMatrixTranslation(&matrixs_[1], 0.0f, -2.0f, 0.0f);
@@ -35,7 +35,7 @@ public:
 
 		// create effects
 		ID3DXBuffer* errorBuffer = nullptr;
-		dx9::CHECK_HR = D3DXCreateEffectFromFile(dx9::g_pD3DD,
+		d3d9::CHECK_HR = D3DXCreateEffectFromFile(d3d9::g_pD3DD,
 			"cartoon.fx",
 			0,
 			0,
@@ -65,17 +65,17 @@ public:
 			1000.0f);
 
 		D3DXVECTOR4 lightDir(-0.57f, 0.57f, -0.57f, 0.0f);
-		dx9::CHECK_HR = tech_->SetVector(lightDirH_, &lightDir);
+		d3d9::CHECK_HR = tech_->SetVector(lightDirH_, &lightDir);
 
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD,
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD,
 			"toonshade.bmp",
 			&texture_);
-		dx9::CHECK_HR = tech_->SetTexture(texH_, texture_);
+		d3d9::CHECK_HR = tech_->SetTexture(texH_, texture_);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			// update scene
 			static float angle = (3.0f * D3DX_PI) / 2.0f;
@@ -98,37 +98,37 @@ public:
 			D3DXMatrixLookAtLH(&view, &position, &target, &up);
 
 			// active technique and render
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
-			dx9::CHECK_HR = tech_->SetTechnique(techH_);
+			d3d9::CHECK_HR = tech_->SetTechnique(techH_);
 
 			UINT numPasses = 0;
-			dx9::CHECK_HR = tech_->Begin(&numPasses, 0);
+			d3d9::CHECK_HR = tech_->Begin(&numPasses, 0);
 
 			D3DXMATRIX worldView, worldViewProj;
 			for (int n = 0; n < numPasses; ++n)
 			{
-				dx9::CHECK_HR = tech_->BeginPass(n);
+				d3d9::CHECK_HR = tech_->BeginPass(n);
 				for (int i = 0; i < OBJ_NUM; ++i)
 				{
 					worldView = matrixs_[i] * view;
 					worldViewProj = worldView * projM_;
 
-					dx9::CHECK_HR = tech_->SetMatrix(WVMatrixH_, &worldView);
-					dx9::CHECK_HR = tech_->SetMatrix(WVPMatrixH_, &worldViewProj);
-					dx9::CHECK_HR = tech_->SetVector(colorH_, &meshColors_[i]);
+					d3d9::CHECK_HR = tech_->SetMatrix(WVMatrixH_, &worldView);
+					d3d9::CHECK_HR = tech_->SetMatrix(WVPMatrixH_, &worldViewProj);
+					d3d9::CHECK_HR = tech_->SetVector(colorH_, &meshColors_[i]);
 
-					dx9::CHECK_HR = tech_->CommitChanges();
+					d3d9::CHECK_HR = tech_->CommitChanges();
 
-					dx9::CHECK_HR = objs_[i]->DrawSubset(0);
+					d3d9::CHECK_HR = objs_[i]->DrawSubset(0);
 				}
-				dx9::CHECK_HR = tech_->EndPass();
+				d3d9::CHECK_HR = tech_->EndPass();
 			}
-			dx9::CHECK_HR = tech_->End();
+			d3d9::CHECK_HR = tech_->End();
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

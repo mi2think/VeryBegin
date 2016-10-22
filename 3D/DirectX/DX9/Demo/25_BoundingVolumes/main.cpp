@@ -1,18 +1,18 @@
 #include "sims.h"
 #include "core/key_event.h"
 #include "math/bbox.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 #include "utils/demo_app.h"
 using namespace sims; 
 
 void ComputeBoundingSphere(ID3DXMesh* mesh, BBox& bbox)
 {
 	uint8* v = nullptr;
-	dx9::CHECK_HR = mesh->LockVertexBuffer(0, (void**)&v);
+	d3d9::CHECK_HR = mesh->LockVertexBuffer(0, (void**)&v);
 
 	D3DXVECTOR3 c;
 	float r;
-	dx9::CHECK_HR = D3DXComputeBoundingSphere(
+	d3d9::CHECK_HR = D3DXComputeBoundingSphere(
 		(D3DXVECTOR3*)v,
 		mesh->GetNumVertices(),
 		D3DXGetFVFVertexSize(mesh->GetFVF()),
@@ -20,17 +20,17 @@ void ComputeBoundingSphere(ID3DXMesh* mesh, BBox& bbox)
 		&r);
 	bbox = BBox(Vector3f(c.x, c.y, c.z), r);
 
-	dx9::CHECK_HR = mesh->UnlockVertexBuffer();
+	d3d9::CHECK_HR = mesh->UnlockVertexBuffer();
 }
 
 void ComputeBoundingBox(ID3DXMesh* mesh, BBox& bbox)
 {
 	uint8* v = nullptr;
-	dx9::CHECK_HR = mesh->LockVertexBuffer(0, (void**)&v);
+	d3d9::CHECK_HR = mesh->LockVertexBuffer(0, (void**)&v);
 
 	D3DXVECTOR3 mi;
 	D3DXVECTOR3 ma;
-	dx9::CHECK_HR = D3DXComputeBoundingBox(
+	d3d9::CHECK_HR = D3DXComputeBoundingBox(
 		(D3DXVECTOR3*)v,
 		mesh->GetNumVertices(),
 		D3DXGetFVFVertexSize(mesh->GetFVF()),
@@ -38,10 +38,10 @@ void ComputeBoundingBox(ID3DXMesh* mesh, BBox& bbox)
 		&ma);
 	bbox = BBox(Vector3f(mi.x, mi.y, mi.z), Vector3f(ma.x, ma.y, ma.z));
 
-	dx9::CHECK_HR = mesh->UnlockVertexBuffer();
+	d3d9::CHECK_HR = mesh->UnlockVertexBuffer();
 }
 
-class BoundingVolumes : public DemoApp<dx9::Window>
+class BoundingVolumes : public DemoApp<d3d9::Window>
 {
 public:
 	BoundingVolumes()
@@ -53,16 +53,16 @@ public:
 
 	virtual void OnCreate()
 	{
-		DemoApp<dx9::Window>::OnCreate();
+		DemoApp<d3d9::Window>::OnCreate();
 
 		ID3DXBuffer* adjBuffer = nullptr;
 		ID3DXBuffer* mtrlBuffer = nullptr;
 		DWORD numMtrls = 0;
 
 		// load x file
-		dx9::CHECK_HR = D3DXLoadMeshFromX("bigship1.x",
+		d3d9::CHECK_HR = D3DXLoadMeshFromX("bigship1.x",
 			D3DXMESH_MANAGED,
-			dx9::g_pD3DD,
+			d3d9::g_pD3DD,
 			&adjBuffer,
 			&mtrlBuffer,
 			0,
@@ -86,8 +86,8 @@ public:
 				IDirect3DTexture9* tex = nullptr;
 				if (mts[i].pTextureFilename != nullptr)
 				{
-					dx9::CHECK_HR = D3DXCreateTextureFromFile(
-						dx9::g_pD3DD,
+					d3d9::CHECK_HR = D3DXCreateTextureFromFile(
+						d3d9::g_pD3DD,
 						mts[i].pTextureFilename,
 						&tex);
 				}
@@ -97,7 +97,7 @@ public:
 		SAFE_RELEASE(mtrlBuffer);
 
 		// optimize mesh
-		dx9::CHECK_HR = mesh_->OptimizeInplace(
+		d3d9::CHECK_HR = mesh_->OptimizeInplace(
 			D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT | D3DXMESHOPT_VERTEXCACHE,
 			(DWORD*)adjBuffer->GetBufferPointer(),
 			0,
@@ -111,7 +111,7 @@ public:
 		ComputeBoundingBox(mesh_, box);
 		ComputeBoundingSphere(mesh_, sphere);
 
-		dx9::CHECK_HR = D3DXCreateBox(dx9::g_pD3DD,
+		d3d9::CHECK_HR = D3DXCreateBox(d3d9::g_pD3DD,
 			box.Size().x,
 			box.Size().y,
 			box.Size().z,
@@ -121,7 +121,7 @@ public:
 		float r;
 		sphere.InnerSphere(c, r);
 		D3DXVECTOR3 xc(c.x, c.y, c.z);
-		dx9::CHECK_HR = D3DXCreateSphere(dx9::g_pD3DD,
+		d3d9::CHECK_HR = D3DXCreateSphere(d3d9::g_pD3DD,
 			r,
 			20,
 			20,
@@ -129,9 +129,9 @@ public:
 			0);
 
 		// set texture filters
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 		// setup directional light
 		D3DLIGHT9 light;
@@ -142,11 +142,11 @@ public:
 		light.Ambient = white * 0.4f;
 		light.Direction = D3DXVECTOR3(1.0f, -1.0f, 1.0f);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light);
-		dx9::CHECK_HR = dx9::g_pD3DD->LightEnable(0, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetLight(0, &light);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->LightEnable(0, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 
 		// view
 		D3DXVECTOR3 pos(4.0f, 12.0f, -20.0f);
@@ -154,7 +154,7 @@ public:
 		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 		D3DXMATRIX view;
 		D3DXMatrixLookAtLH(&view, &pos, &target, &up);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// projection
 		D3DXMATRIX proj;
@@ -163,12 +163,12 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			static float y = 0.0f;
 
@@ -177,38 +177,38 @@ public:
 			y += timestep.GetSeconds();
 			if (y >= 2 * D3DX_PI)
 				y = 0.0f;
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_WORLD, &ry);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_WORLD, &ry);
 
 			// draw
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 			// mesh
 			for (int i = 0; i < mts_.size(); ++i)
 			{
 				auto& mtrl = mts_[i];
-				dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&mtrl);
-				dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, texs_[i]);
-				dx9::CHECK_HR = mesh_->DrawSubset(i);
+				d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&mtrl);
+				d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, texs_[i]);
+				d3d9::CHECK_HR = mesh_->DrawSubset(i);
 			}
 
 			// bounding volume in blue and at 10% opacity
 			D3DMATERIAL9 mBlue;
 			GenMaterial(mBlue, blue, blue, blue, black, 2.0f);
 			mBlue.Diffuse.a = 0.10f;
-			dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&mBlue);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&mBlue);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 			if (drawBox_)
 				meshBox_->DrawSubset(0);
 			else
 				meshSphere_->DrawSubset(0);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "sims.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 using namespace sims;
 
 class Terrain
@@ -50,6 +50,6 @@ private:
 	IDirect3DIndexBuffer9* ib_;
 	IDirect3DTexture9* tex_;
 
-	dx9::VertexUV* vertices_;
+	d3d9::VertexUV* vertices_;
 	uint16* indices_;
 };

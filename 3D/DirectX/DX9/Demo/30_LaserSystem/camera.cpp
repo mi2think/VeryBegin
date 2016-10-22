@@ -2,7 +2,7 @@
 #include "math/matrix33.h"
 #include "math/matrix44.h"
 #include "core/input_state.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 
 Camera::Camera(CameraType cameraType)
 	: cameraType_(cameraType)

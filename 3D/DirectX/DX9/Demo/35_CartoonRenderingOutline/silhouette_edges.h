@@ -1,6 +1,6 @@
 #pragma once
 #include "sims.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 using namespace sims;
 
 struct EdgeVertex

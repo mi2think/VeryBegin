@@ -3,10 +3,10 @@
 #include "math/vector3.h"
 #include "core/color.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 using namespace sims;
 
-class Textures : public DemoApp<dx9::Window>
+class Textures : public DemoApp<d3d9::Window>
 {
 public:
 	struct CUSTOMVERTEX
@@ -31,7 +31,7 @@ public:
 	virtual void OnCreate()
 	{
 		// create vertex buffer
-		dx9::CHECK_HR = dx9::g_pD3DD->CreateVertexBuffer(50 * 2 * sizeof(CUSTOMVERTEX),
+		d3d9::CHECK_HR = d3d9::g_pD3DD->CreateVertexBuffer(50 * 2 * sizeof(CUSTOMVERTEX),
 			D3DUSAGE_WRITEONLY,
 			CUSTOMVERTEX::FVF,
 			D3DPOOL_DEFAULT,
@@ -41,7 +41,7 @@ public:
 		// fill vertex buffer. we are algorithmically generating a cylinder here,
 		// including the normals, which are used for lighting
 		CUSTOMVERTEX* v = nullptr;
-		dx9::CHECK_HR = vb_->Lock(0, 0, (void**)&v, 0);
+		d3d9::CHECK_HR = vb_->Lock(0, 0, (void**)&v, 0);
 		for (int i = 0; i < 50; ++i)
 		{
 			float delta = (2 * D3DX_PI * i) / (50 - 1);
@@ -54,10 +54,10 @@ public:
 			v[2 * i + 1].uv = Vector2f((float)i / (50 - 1), 0.0f);
 #endif
 		}
-		dx9::CHECK_HR = vb_->Unlock();
+		d3d9::CHECK_HR = vb_->Unlock();
 
 		// load texture
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD,
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD,
 			"banana.bmp",
 			&tex_);
 
@@ -67,7 +67,7 @@ public:
 		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 		D3DXMATRIX view;
 		D3DXMatrixLookAtLH(&view, &pos, &target, &up);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// projection
 		D3DXMATRIX proj;
@@ -76,16 +76,16 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			100.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, false);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_ZENABLE, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, false);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_ZENABLE, true);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			static float x = 0.0f;
 
@@ -96,22 +96,22 @@ public:
 			// world
 			D3DXMATRIX world;
 			D3DXMatrixRotationX(&world, x);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_WORLD, &world);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_WORLD, &world);
 
 			// draw
 
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xff0000ff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xff0000ff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 			// setup our texture. using textures introduces the texture stage states,
 			// which govern how textures get blended together(in the case of multiple textures)
 			// and lighting information. in this case, we are modulating(blending) our texture with
 			// diffuse color of vertices.
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, tex_);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, tex_);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
 #ifdef SHOW_HOW_TO_USE_TCI
 			// note: to use D3D texture coordinate generation, use the stage state D3DTSS_TEXCOORDINDEX, as shown below.
@@ -136,22 +136,22 @@ public:
 			D3DXMATRIX trans;
 			D3DXMATRIX scale;
 
-			dx9::CHECK_HR = dx9::g_pD3DD->GetTransform(D3DTS_PROJECTION, &proj);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->GetTransform(D3DTS_PROJECTION, &proj);
 			D3DXMatrixTranslation(&trans, 0.5f, 0.5f, 0.0f);
 			D3DXMatrixScaling(&scale, 0.5f, -0.5f, 1.0f);
 			textureTransform = proj * scale * trans;
 
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_TEXTURE0, &textureTransform);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT4 | D3DTTFF_PROJECTED);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_CAMERASPACEPOSITION);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_TEXTURE0, &textureTransform);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT4 | D3DTTFF_PROJECTED);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_CAMERASPACEPOSITION);
 #endif
 
-			dx9::CHECK_HR = dx9::g_pD3DD->SetStreamSource(0, vb_, 0, sizeof(CUSTOMVERTEX));
-			dx9::CHECK_HR = dx9::g_pD3DD->SetFVF(CUSTOMVERTEX::FVF);
-			dx9::CHECK_HR = dx9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2 * (50 - 1));
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetStreamSource(0, vb_, 0, sizeof(CUSTOMVERTEX));
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetFVF(CUSTOMVERTEX::FVF);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2 * (50 - 1));
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

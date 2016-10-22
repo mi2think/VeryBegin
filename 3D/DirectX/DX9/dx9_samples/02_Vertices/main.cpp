@@ -1,9 +1,9 @@
 #include "sims.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 using namespace sims;
 
-class Vertices : public DemoApp<dx9::Window>
+class Vertices : public DemoApp<d3d9::Window>
 {
 public:
 	struct CUSTOMVERTEX
@@ -25,31 +25,31 @@ public:
 			{ 250.0f,  250.0f, 0.5f, 1.0f, 0xff00ff00, },
 			{ 50.0f,   250.0f, 0.5f, 1.0f, 0xff00ffff, },
 		};
-		dx9::CHECK_HR = dx9::g_pD3DD->CreateVertexBuffer(sizeof(vertices),
+		d3d9::CHECK_HR = d3d9::g_pD3DD->CreateVertexBuffer(sizeof(vertices),
 			D3DUSAGE_WRITEONLY,
 			CUSTOMVERTEX::FVF,
 			D3DPOOL_DEFAULT,
 			&vb_,
 			nullptr);
 		Vertices* v = nullptr;
-		dx9::CHECK_HR = vb_->Lock(0, sizeof(vertices), (void**)&v, 0);
+		d3d9::CHECK_HR = vb_->Lock(0, sizeof(vertices), (void**)&v, 0);
 		memcpy(v, vertices, sizeof(vertices));
-		dx9::CHECK_HR = vb_->Unlock();
+		d3d9::CHECK_HR = vb_->Unlock();
 	}
 
 	virtual void OnRender(const Timestep&)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xff0000ff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xff0000ff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
-			dx9::CHECK_HR = dx9::g_pD3DD->SetStreamSource(0, vb_, 0, sizeof(CUSTOMVERTEX));
-			dx9::CHECK_HR = dx9::g_pD3DD->SetFVF(CUSTOMVERTEX::FVF);
-			dx9::CHECK_HR = dx9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetStreamSource(0, vb_, 0, sizeof(CUSTOMVERTEX));
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetFVF(CUSTOMVERTEX::FVF);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

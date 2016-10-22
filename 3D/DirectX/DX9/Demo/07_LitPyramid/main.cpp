@@ -1,11 +1,11 @@
 #include "sims.h"
 #include "core/log.h"
 #include "math/vector3.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 #include "utils/demo_app.h"
 using namespace sims;
 
-class LitPyramid : public DemoApp<dx9::Window>
+class LitPyramid : public DemoApp<d3d9::Window>
 {
 public:
 	struct Vertex
@@ -25,10 +25,10 @@ public:
 
 	virtual void OnCreate()
 	{
-		DemoApp<dx9::Window>::OnCreate();
+		DemoApp<d3d9::Window>::OnCreate();
 
 		// create vertex buffer
-		dx9::CHECK_HR = dx9::g_pD3DD->CreateVertexBuffer(12 * sizeof(Vertex),
+		d3d9::CHECK_HR = d3d9::g_pD3DD->CreateVertexBuffer(12 * sizeof(Vertex),
 			D3DUSAGE_WRITEONLY,
 			Vertex::FVF,
 			D3DPOOL_MANAGED,
@@ -37,7 +37,7 @@ public:
 
 		// fill buffer
 		Vertex* v = 0;
-		dx9::CHECK_HR = vb_->Lock(0, 0, (void**)&v, 0);
+		d3d9::CHECK_HR = vb_->Lock(0, 0, (void**)&v, 0);
 		// front
 		v[0] = Vertex(Vector3f(-1.0f, 0.0f, -1.0f), Vector3f(0.0f, 0.707f, -0.707f));
 		v[1] = Vertex(Vector3f( 0.0f, 1.0f,  0.0f), Vector3f(0.0f, 0.707f, -0.707f));
@@ -54,7 +54,7 @@ public:
 		v[9]  = Vertex(Vector3f( 1.0f, 0.0f, 1.0f), Vector3f( 0.0f, 0.707f, 0.707f));
 		v[10] = Vertex(Vector3f( 0.0f, 1.0f, 0.0f), Vector3f( 0.0f, 0.707f, 0.707f));
 		v[11] = Vertex(Vector3f(-1.0f, 0.0f, 1.0f), Vector3f( 0.0f, 0.707f, 0.707f));
-		dx9::CHECK_HR = vb_->Unlock();
+		d3d9::CHECK_HR = vb_->Unlock();
 
 		// create and set material
 		D3DMATERIAL9 mt;
@@ -63,7 +63,7 @@ public:
 		mt.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		mt.Emissive = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);
 		mt.Power = 5.0f;
-		dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&mt);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&mt);
 
 		// setup a directional light
 		D3DLIGHT9 light;
@@ -75,13 +75,13 @@ public:
 		light.Direction = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 
 		// set and enable light
-		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light);
-		dx9::CHECK_HR = dx9::g_pD3DD->LightEnable(0, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetLight(0, &light);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->LightEnable(0, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
 
 		// turn on specular lighting
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
 
 		// view
 		D3DXVECTOR3 position(0.0f, 1.0f, -3.0f);
@@ -89,7 +89,7 @@ public:
 		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 		D3DXMATRIX view;
 		D3DXMatrixLookAtLH(&view, &position, &target, &up);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// projection
 		D3DXMATRIX proj;
@@ -98,12 +98,12 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			// rotate y-axis
 			static float y = 0.0f;
@@ -112,18 +112,18 @@ public:
 			y += timestep.GetSeconds();
 			if (y >= 2 * D3DX_PI)
 				y = 0.0f;
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_WORLD, &ry);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_WORLD, &ry);
 
 			// draw scene
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xff000000, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->SetStreamSource(0, vb_, 0, sizeof(Vertex));
-			dx9::CHECK_HR = dx9::g_pD3DD->SetFVF(Vertex::FVF);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xff000000, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetStreamSource(0, vb_, 0, sizeof(Vertex));
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetFVF(Vertex::FVF);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 4);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 4);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

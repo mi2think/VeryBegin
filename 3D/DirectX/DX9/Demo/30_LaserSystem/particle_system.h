@@ -3,7 +3,7 @@
 #include "math/vector3.h"
 #include "math/bbox.h"
 #include "core/color.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 using namespace sims;
 
 struct Particle

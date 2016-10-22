@@ -8,13 +8,13 @@
 #include "core/log.h"
 #include "utils/fps.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 
 #include "camera.h"
 #include "terrain.h"
 using namespace sims;
 
-class TerrainApp : public DemoApp<dx9::Window>
+class TerrainApp : public DemoApp<d3d9::Window>
 {
 public:
 	TerrainApp()
@@ -26,7 +26,7 @@ public:
 
 	virtual void OnCreate()
 	{
-		terrain_ = new Terrain(dx9::g_pD3DD,
+		terrain_ = new Terrain(d3d9::g_pD3DD,
 			"coastMountain64.raw",
 			0.5f,
 			640,
@@ -35,9 +35,9 @@ public:
 			64);
 		terrain_->GenerateTexture(Vector3f(0.0f, -1.0f, 0.0f));
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 		// projection
 		D3DXMATRIX proj;
@@ -46,7 +46,7 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 	}
 
 	virtual void OnUpdate(const Timestep& timestep)
@@ -78,19 +78,19 @@ public:
 	{
 		D3DXMATRIX view;
 		camera_.GetViewMatrix(&view);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// draw scene
-		dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xff000000, 1.0f, 0);
-		dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+		d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xff000000, 1.0f, 0);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 		D3DXMATRIX I;
 		D3DXMatrixIdentity(&I);
 		if (terrain_)
 			terrain_->Draw(I, false);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-		dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+		d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 	}
 
 	virtual void OnDestroy()

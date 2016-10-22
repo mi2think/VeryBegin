@@ -3,10 +3,10 @@
 #include "core/mouse_event.h"
 #include "core/input_state.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_sdk_dx11.h"
+#include "graphics_api/sims_sdk_d3d11.h"
 using namespace sims;
 
-class BoxApp : public DemoApp<dx11::Window>
+class BoxApp : public DemoApp<d3d11::Window>
 {
 public:
 	BoxApp()
@@ -26,7 +26,7 @@ public:
 		ID3D10Blob* errorMsg = nullptr;
 		ID3D10Blob* vsBuffer = nullptr;
 		ID3D10Blob* psBuffer = nullptr;
-		dx11::CHECK_HR = D3DX11CompileFromFile("box_vs.hlsl",
+		d3d11::CHECK_HR = D3DX11CompileFromFile("box_vs.hlsl",
 			0,
 			0,
 			"main",
@@ -47,12 +47,12 @@ public:
 			return;
 		}
 
-		dx11::CHECK_HR = dx11::g_pD3DD->CreateVertexShader(vsBuffer->GetBufferPointer(),
+		d3d11::CHECK_HR = d3d11::g_pD3DD->CreateVertexShader(vsBuffer->GetBufferPointer(),
 			vsBuffer->GetBufferSize(),
 			0,
 			&vs_);
 
-		dx11::CHECK_HR = D3DX11CompileFromFile("box_ps.hlsl",
+		d3d11::CHECK_HR = D3DX11CompileFromFile("box_ps.hlsl",
 			0,
 			0,
 			"main",
@@ -73,7 +73,7 @@ public:
 			return;
 		}
 
-		dx11::CHECK_HR = dx11::g_pD3DD->CreatePixelShader(psBuffer->GetBufferPointer(),
+		d3d11::CHECK_HR = d3d11::g_pD3DD->CreatePixelShader(psBuffer->GetBufferPointer(),
 			psBuffer->GetBufferSize(),
 			0,
 			&ps_);
@@ -86,11 +86,11 @@ public:
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		desc.MiscFlags = 0;
 		desc.StructureByteStride = 0;
-		dx11::CHECK_HR = dx11::g_pD3DD->CreateBuffer(&desc, 0, &matrixBuffer_);
+		d3d11::CHECK_HR = d3d11::g_pD3DD->CreateBuffer(&desc, 0, &matrixBuffer_);
 
 		// create box
-		box_ = new dx11::GeoBox<dx11::Vertex>((uint8*)vsBuffer->GetBufferPointer(), vsBuffer->GetBufferSize());
-		box_->Init(2, 2, 2, Matrix44f().Identity(), [](dx11::Vertex* v, uint32 n)
+		box_ = new d3d11::GeoBox<d3d11::Vertex>((uint8*)vsBuffer->GetBufferPointer(), vsBuffer->GetBufferSize());
+		box_->Init(2, 2, 2, Matrix44f().Identity(), [](d3d11::Vertex* v, uint32 n)
 		{
 			Vector4f colors[] = {
 				{ 1.0f, 1.0f, 1.0f, 1.0f },
@@ -124,30 +124,30 @@ public:
 
 		// update WVP
 		D3D11_MAPPED_SUBRESOURCE subRes;
-		dx11::CHECK_HR = dx11::g_pD3DDC->Map(matrixBuffer_,
+		d3d11::CHECK_HR = d3d11::g_pD3DDC->Map(matrixBuffer_,
 			0,
 			D3D11_MAP_WRITE_DISCARD,
 			0,
 			&subRes);
 		Matrix44f* data = (Matrix44f*)subRes.pData;
 		*data = worldViewProjM;
-		dx11::g_pD3DDC->Unmap(matrixBuffer_, 0);
+		d3d11::g_pD3DDC->Unmap(matrixBuffer_, 0);
 
 		// update VS constant buffer
-		dx11::g_pD3DDC->VSSetConstantBuffers(0, 1, &matrixBuffer_);
+		d3d11::g_pD3DDC->VSSetConstantBuffers(0, 1, &matrixBuffer_);
 	}
 
 	virtual void OnRender(const Timestep&)
 	{
-		dx11::g_pD3DDC->ClearRenderTargetView(dx11::g_pRenderTargetView, (const float*)&dx11::LightSteelBlue);
-		dx11::g_pD3DDC->ClearDepthStencilView(dx11::g_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		d3d11::g_pD3DDC->ClearRenderTargetView(d3d11::g_pRenderTargetView, (const float*)&d3d11::LightSteelBlue);
+		d3d11::g_pD3DDC->ClearDepthStencilView(d3d11::g_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-		dx11::g_pD3DDC->VSSetShader(vs_, 0, 0);
-		dx11::g_pD3DDC->PSSetShader(ps_, 0, 0);
+		d3d11::g_pD3DDC->VSSetShader(vs_, 0, 0);
+		d3d11::g_pD3DDC->PSSetShader(ps_, 0, 0);
 
 		box_->Draw();
 
-		dx11::CHECK_HR = dx11::g_pSwapChain->Present(0, 0);
+		d3d11::CHECK_HR = d3d11::g_pSwapChain->Present(0, 0);
 	}
 
 	virtual bool OnEvent(const Event& event)
@@ -200,7 +200,7 @@ public:
 		SAFE_RELEASE(matrixBuffer_);
 	}
 private:
-	dx11::GeoBox<dx11::Vertex>* box_;
+	d3d11::GeoBox<d3d11::Vertex>* box_;
 	ID3D11VertexShader* vs_;
 	ID3D11PixelShader*  ps_;
 	ID3D11Buffer* matrixBuffer_;

@@ -4,7 +4,7 @@
 #include "core/log.h"
 #include "core/input_state.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 using namespace sims;
 
 struct MultiTexVertex
@@ -25,7 +25,7 @@ struct MultiTexVertex
 	{}
 };
 
-class MultiTexture : public DemoApp<dx9::Window>
+class MultiTexture : public DemoApp<d3d9::Window>
 {
 public:
 	MultiTexture()
@@ -40,14 +40,14 @@ public:
 	virtual void OnCreate()
 	{
 		// create quad
-		dx9::CHECK_HR = dx9::g_pD3DD->CreateVertexBuffer(6 * sizeof(MultiTexVertex),
+		d3d9::CHECK_HR = d3d9::g_pD3DD->CreateVertexBuffer(6 * sizeof(MultiTexVertex),
 			D3DUSAGE_WRITEONLY,
 			0, // using vertex decl
 			D3DPOOL_MANAGED,
 			&quadVB_,
 			0);
 		MultiTexVertex* v = nullptr;
-		dx9::CHECK_HR = quadVB_->Lock(0, 0, (void**)&v, 0);
+		d3d9::CHECK_HR = quadVB_->Lock(0, 0, (void**)&v, 0);
 
 		v[0] = MultiTexVertex(Vector3f(-10.0f, -10.0f, 5.0f), Vector2f(0.0f, 1.0f), Vector2f(0.0f, 1.0f), Vector2f(0.0f, 1.0f));
 		v[1] = MultiTexVertex(Vector3f(-10.0f,  10.0f, 5.0f), Vector2f(0.0f, 0.0f), Vector2f(0.0f, 0.0f), Vector2f(0.0f, 0.0f));
@@ -57,7 +57,7 @@ public:
 		v[4] = MultiTexVertex(Vector3f( 10.0f,  10.0f, 5.0f), Vector2f(1.0f, 0.0f), Vector2f(1.0f, 0.0f), Vector2f(1.0f, 0.0f));
 		v[5] = MultiTexVertex(Vector3f( 10.0f, -10.0f, 5.0f), Vector2f(1.0f, 1.0f), Vector2f(1.0f, 1.0f), Vector2f(1.0f, 1.0f));
 
-		dx9::CHECK_HR = quadVB_->Unlock();
+		d3d9::CHECK_HR = quadVB_->Unlock();
 
 		// create vertex decl
 		D3DVERTEXELEMENT9 decl[] =
@@ -68,12 +68,12 @@ public:
 			{0, 28, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 2},
 			D3DDECL_END()
 		};
-		dx9::CHECK_HR = dx9::g_pD3DD->CreateVertexDeclaration(decl, &decl_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->CreateVertexDeclaration(decl, &decl_);
 
 		// compile shader
 		ID3DXBuffer* shaderBuffer = nullptr;
 		ID3DXBuffer* errorBuffer = nullptr;
-		dx9::CHECK_HR = D3DXCompileShaderFromFile(
+		d3d9::CHECK_HR = D3DXCompileShaderFromFile(
 			"multi_texture.hlsl",
 			0,
 			0,
@@ -94,13 +94,13 @@ public:
 		}
 
 		// create pixel shader
-		dx9::CHECK_HR = dx9::g_pD3DD->CreatePixelShader((DWORD*)shaderBuffer->GetBufferPointer(), &progPS_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->CreatePixelShader((DWORD*)shaderBuffer->GetBufferPointer(), &progPS_);
 		SAFE_RELEASE(shaderBuffer);
 
 		// load textures
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD, "crate.bmp", &baseTex_);
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD, "spotlight.bmp", &spotLightTex_);
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD, "text.bmp", &textTex_);
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD, "crate.bmp", &baseTex_);
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD, "spotlight.bmp", &spotLightTex_);
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD, "text.bmp", &textTex_);
 
 		// projection
 		D3DXMATRIX proj;
@@ -109,10 +109,10 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 
 		// disable lighting
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, false);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, false);
 
 		// get handles
 		baseTexH_ = multiTexCT_->GetConstantByName(0, "baseTex");
@@ -121,16 +121,16 @@ public:
 
 		// set constant desc
 		uint32 count = 0;
-		dx9::CHECK_HR = multiTexCT_->GetConstantDesc(baseTexH_, &baseTexDesc_, &count);
-		dx9::CHECK_HR = multiTexCT_->GetConstantDesc(spotLightTexH_, &spotLightTexDesc_, &count);
-		dx9::CHECK_HR = multiTexCT_->GetConstantDesc(textTexH_, &textTexDesc_, &count);
+		d3d9::CHECK_HR = multiTexCT_->GetConstantDesc(baseTexH_, &baseTexDesc_, &count);
+		d3d9::CHECK_HR = multiTexCT_->GetConstantDesc(spotLightTexH_, &spotLightTexDesc_, &count);
+		d3d9::CHECK_HR = multiTexCT_->GetConstantDesc(textTexH_, &textTexDesc_, &count);
 
-		dx9::CHECK_HR = multiTexCT_->SetDefaults(dx9::g_pD3DD);
+		d3d9::CHECK_HR = multiTexCT_->SetDefaults(d3d9::g_pD3DD);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			// update
 			static float angle = 3.0f * D3DX_PI / 2.0f;
@@ -151,38 +151,38 @@ public:
 			D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 			D3DXMATRIX view;
 			D3DXMatrixLookAtLH(&view, &position, &target, &up);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 			// render
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
-			dx9::CHECK_HR = dx9::g_pD3DD->SetPixelShader(progPS_);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetVertexDeclaration(decl_);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetStreamSource(0, quadVB_, 0, sizeof(MultiTexVertex));
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetPixelShader(progPS_);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetVertexDeclaration(decl_);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetStreamSource(0, quadVB_, 0, sizeof(MultiTexVertex));
 
 			// base tex
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(baseTexDesc_.RegisterIndex, baseTex_);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(baseTexDesc_.RegisterIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(baseTexDesc_.RegisterIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(baseTexDesc_.RegisterIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(baseTexDesc_.RegisterIndex, baseTex_);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(baseTexDesc_.RegisterIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(baseTexDesc_.RegisterIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(baseTexDesc_.RegisterIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 			// spotlight tex
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(spotLightTexDesc_.RegisterIndex, spotLightTex_);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(spotLightTexDesc_.RegisterIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(spotLightTexDesc_.RegisterIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(spotLightTexDesc_.RegisterIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(spotLightTexDesc_.RegisterIndex, spotLightTex_);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(spotLightTexDesc_.RegisterIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(spotLightTexDesc_.RegisterIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(spotLightTexDesc_.RegisterIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 			// text tex
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(textTexDesc_.RegisterIndex, textTex_);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(textTexDesc_.RegisterIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(textTexDesc_.RegisterIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(textTexDesc_.RegisterIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(textTexDesc_.RegisterIndex, textTex_);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(textTexDesc_.RegisterIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(textTexDesc_.RegisterIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(textTexDesc_.RegisterIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

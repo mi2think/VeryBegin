@@ -1,19 +1,19 @@
 #include "sims.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_sdk_dx11.h"
+#include "graphics_api/sims_sdk_d3d11.h"
 using namespace sims;
 
-class InitD3D : public DemoApp<dx11::Window>
+class InitD3D : public DemoApp<d3d11::Window>
 {
 public:
 	virtual void OnRender(const Timestep&)
 	{
 		const float blue[] = { 0.0f, 0.0f, 1.0f, 1.0f };
 
-		dx11::g_pD3DDC->ClearRenderTargetView(dx11::g_pRenderTargetView, blue);
-		dx11::g_pD3DDC->ClearDepthStencilView(dx11::g_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		d3d11::g_pD3DDC->ClearRenderTargetView(d3d11::g_pRenderTargetView, blue);
+		d3d11::g_pD3DDC->ClearDepthStencilView(d3d11::g_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-		dx11::CHECK_HR = dx11::g_pSwapChain->Present(0, 0);
+		d3d11::CHECK_HR = d3d11::g_pSwapChain->Present(0, 0);
 	}
 };
 

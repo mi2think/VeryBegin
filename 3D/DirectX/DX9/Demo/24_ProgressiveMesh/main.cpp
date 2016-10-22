@@ -1,11 +1,11 @@
 #include "sims.h"
 #include "core/log.h"
 #include "core/key_event.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 #include "utils/demo_app.h"
 using namespace sims;
 
-class ProgressiveMesh : public DemoApp<dx9::Window>
+class ProgressiveMesh : public DemoApp<d3d9::Window>
 {
 public:
 	ProgressiveMesh()
@@ -15,16 +15,16 @@ public:
 
 	virtual void OnCreate()
 	{
-		DemoApp<dx9::Window>::OnCreate();
+		DemoApp<d3d9::Window>::OnCreate();
 
 		// load .x file
 		ID3DXBuffer* adjBuffer = nullptr;
 		ID3DXBuffer* mtrlBuffer = nullptr;
 		DWORD numMtrls = 0;
 
-		dx9::CHECK_HR = D3DXLoadMeshFromX("bigship1.x",
+		d3d9::CHECK_HR = D3DXLoadMeshFromX("bigship1.x",
 			D3DXMESH_MANAGED,
-			dx9::g_pD3DD,
+			d3d9::g_pD3DD,
 			&adjBuffer,
 			&mtrlBuffer,
 			0,
@@ -50,7 +50,7 @@ public:
 				{
 					// load texture
 					IDirect3DTexture9* tex = nullptr;
-					dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD,
+					d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD,
 						mt[i].pTextureFilename,
 						&tex);
 					texs_.push_back(tex);
@@ -66,14 +66,14 @@ public:
 		DWORD* adj = (DWORD*)adjBuffer->GetBufferPointer();
 
 		// optimize mesh
-		dx9::CHECK_HR = mesh_->OptimizeInplace(D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT,
+		d3d9::CHECK_HR = mesh_->OptimizeInplace(D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT,
 			adj,
 			adj,  // must need!!!
 			0,
 			0);
-		dx9::CHECK_HR = D3DXValidMesh(mesh_, adj, nullptr);
+		d3d9::CHECK_HR = D3DXValidMesh(mesh_, adj, nullptr);
 		// generate progressive mesh
-		dx9::CHECK_HR = D3DXGeneratePMesh(mesh_,
+		d3d9::CHECK_HR = D3DXGeneratePMesh(mesh_,
 			(DWORD*)adjBuffer->GetBufferPointer(),
 			0,
 			0,
@@ -90,9 +90,9 @@ public:
 		int b = pmesh_->GetMaxFaces();
 
 		// set texture filter
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 		// setup directional light
 		D3DLIGHT9 light;
@@ -103,11 +103,11 @@ public:
 		light.Ambient = white;
 		light.Direction = D3DXVECTOR3(1.0f, -1.0f, 1.0f);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light);
-		dx9::CHECK_HR = dx9::g_pD3DD->LightEnable(0, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetLight(0, &light);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->LightEnable(0, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 
 		// view
 		D3DXVECTOR3 pos(8.0f, 4.0f, -12.0f);
@@ -115,7 +115,7 @@ public:
 		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 		D3DXMATRIX view;
 		D3DXMatrixLookAtLH(&view, &pos, &target, &up);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// projection
 		D3DXMATRIX proj;
@@ -124,36 +124,36 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			// draw
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 			for (int i = 0; i < mtrls_.size(); ++i)
 			{
 				// draw pmesh
 				auto& mtrl = mtrls_[i];
-				dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&mtrl);
-				dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, texs_[i]);
-				dx9::CHECK_HR = pmesh_->DrawSubset(i);
+				d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&mtrl);
+				d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, texs_[i]);
+				d3d9::CHECK_HR = pmesh_->DrawSubset(i);
 
 				// draw wireframe outline
 				D3DMATERIAL9 yellowMtrl;
 				GenMaterial(yellowMtrl, yellow, yellow, yellow, black, 2.0f);
-				dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&yellowMtrl);
-				dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-				dx9::CHECK_HR = pmesh_->DrawSubset(i);
-				dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+				d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&yellowMtrl);
+				d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+				d3d9::CHECK_HR = pmesh_->DrawSubset(i);
+				d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 			}
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

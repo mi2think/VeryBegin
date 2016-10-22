@@ -1,17 +1,17 @@
 #include "sims.h"
 #include "core/log.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 #include "utils/demo_app.h"
 using namespace sims;
 
-class D3DXCreateTextApp : public DemoApp<dx9::Window>
+class D3DXCreateTextApp : public DemoApp<d3d9::Window>
 {
 public:
 	D3DXCreateTextApp() : mesh_(nullptr) {}
 
 	virtual void OnCreate()
 	{
-		DemoApp<dx9::Window>::OnCreate();
+		DemoApp<d3d9::Window>::OnCreate();
 
 		HDC hdc = CreateCompatibleDC(0);
 		HFONT hFont;
@@ -38,7 +38,7 @@ public:
 		hFontOld = (HFONT)SelectObject(hdc, hFont);
 
 		// create text mesh
-		dx9::CHECK_HR = D3DXCreateText(dx9::g_pD3DD,
+		d3d9::CHECK_HR = D3DXCreateText(d3d9::g_pD3DD,
 			hdc,
 			"Direct3D",
 			0.001f,
@@ -61,10 +61,10 @@ public:
 		light.Ambient = white;
 		light.Direction = D3DXVECTOR3(0.0f, -0.5f, 1.0f);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light);
-		dx9::CHECK_HR = dx9::g_pD3DD->LightEnable(0, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetLight(0, &light);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->LightEnable(0, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
 
 		// view
 		D3DXVECTOR3 pos(0.0f, 1.5f, -3.3f);
@@ -72,7 +72,7 @@ public:
 		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 		D3DXMATRIX view;
 		D3DXMatrixLookAtLH(&view, &pos, &target, &up);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// projection
 		D3DXMATRIX proj;
@@ -81,12 +81,12 @@ public:
 			(float)width_ / height_,
 			0.01f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			static float y = 0.0f;
 		
@@ -99,18 +99,18 @@ public:
 			D3DXMATRIX trans;
 			D3DXMatrixTranslation(&trans, -1.6f, 0.0f, 0.0f);
 			D3DXMATRIX m = trans * ry;
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_WORLD, &m);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_WORLD, &m);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 			D3DMATERIAL9 mtrl;
 			GenMaterial(mtrl, white, white, white, black, 2.0f);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&mtrl);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&mtrl);
 			mesh_->DrawSubset(0);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

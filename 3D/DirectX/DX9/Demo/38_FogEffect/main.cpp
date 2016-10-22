@@ -2,12 +2,12 @@
 #include "core/log.h"
 #include "math/vector3.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 #include "camera.h"
 #include "terrain.h"
 using namespace sims;
 
-class FogEffect : public DemoApp<dx9::Window>
+class FogEffect : public DemoApp<d3d9::Window>
 {
 public:
 	FogEffect()
@@ -19,7 +19,7 @@ public:
 	virtual void OnCreate()
 	{
 		// init scene
-		terrain_ = new Terrain(dx9::g_pD3DD,
+		terrain_ = new Terrain(d3d9::g_pD3DD,
 			"coastMountain64.raw",
 			0.5f,
 			640,
@@ -29,16 +29,16 @@ public:
 		terrain_->GenerateTexture(Vector3f(0.0f, -1.0f, 0.0f));
 
 		// set texture filters
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 		// eye
 		camera_.SetEye(Vector3f(100.0f, 100.0f, -250.0f));
 
 		// create effect
 		ID3DXBuffer* errorBuffer = nullptr;
-		dx9::CHECK_HR = D3DXCreateEffectFromFile(dx9::g_pD3DD,
+		d3d9::CHECK_HR = D3DXCreateEffectFromFile(d3d9::g_pD3DD,
 			"fog.fx",
 			0,
 			0,
@@ -66,7 +66,7 @@ public:
 			(float)width_ / height_,
 			1.0,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 	}
 
 	virtual void OnUpdate(const Timestep& timestep)
@@ -76,20 +76,20 @@ public:
 
 	virtual void OnRender(const Timestep&)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 			D3DXMATRIX view;
 			camera_.GetViewMatrix(&view);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 			// set technique to use
 			fogTech_->SetTechnique(fogTechH_);
 
 			UINT numPasses = 0;
-			dx9::CHECK_HR = fogTech_->Begin(&numPasses, 0);
+			d3d9::CHECK_HR = fogTech_->Begin(&numPasses, 0);
 			D3DXMATRIX I;
 			D3DXMatrixIdentity(&I);
 			for (int i = 0; i < numPasses; ++i)
@@ -99,10 +99,10 @@ public:
 					terrain_->Draw(I, false);
 				fogTech_->EndPass();
 			}
-			dx9::CHECK_HR = fogTech_->End();
+			d3d9::CHECK_HR = fogTech_->End();
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

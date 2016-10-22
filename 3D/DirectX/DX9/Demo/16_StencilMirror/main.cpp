@@ -5,7 +5,7 @@
 #include "core/key_event.h"
 #include "utils/demo_app.h"
 #include "utils/geometry_gen.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 using namespace sims;
 
 #define red   D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f)
@@ -17,7 +17,7 @@ using namespace sims;
 
 #define GenMaterial(m, a, d, s, e, p) { m.Ambient = a; m.Diffuse = d, m.Specular = s; m.Emissive = e; m.Power = p; } 
 
-class StencilMirror : public DemoApp<dx9::Window>
+class StencilMirror : public DemoApp<d3d9::Window>
 {
 public:
 	struct Vertex
@@ -52,7 +52,7 @@ public:
 
 	virtual void OnCreate()
 	{
-		DemoApp<dx9::Window>::OnCreate();
+		DemoApp<d3d9::Window>::OnCreate();
 
 		// create buffer
 		// wall
@@ -71,7 +71,7 @@ public:
 			vbDesc.SetTransform(m);
 			GeometryGen::GenQuad(5, 5, 0, vbDesc, GeometryGen::VT_Position | GeometryGen::VT_Normal | GeometryGen::VT_UV);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->CreateVertexBuffer(sizeof(n),
+			d3d9::CHECK_HR = d3d9::g_pD3DD->CreateVertexBuffer(sizeof(n),
 				D3DUSAGE_WRITEONLY,
 				Vertex::FVF,
 				D3DPOOL_MANAGED,
@@ -79,9 +79,9 @@ public:
 				0);
 
 			Vertex* v = nullptr;
-			dx9::CHECK_HR = vbWall_->Lock(0, 0, (void**)&v, 0);
+			d3d9::CHECK_HR = vbWall_->Lock(0, 0, (void**)&v, 0);
 			memcpy(v, &n[0], sizeof(n));
-			dx9::CHECK_HR = vbWall_->Unlock();
+			d3d9::CHECK_HR = vbWall_->Unlock();
 		}
 		// mirror
 		{
@@ -92,7 +92,7 @@ public:
 			vbDesc.SetTransform(m);
 			GeometryGen::GenQuad(5, 5, 0, vbDesc, GeometryGen::VT_Position | GeometryGen::VT_Normal | GeometryGen::VT_UV);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->CreateVertexBuffer(sizeof(n),
+			d3d9::CHECK_HR = d3d9::g_pD3DD->CreateVertexBuffer(sizeof(n),
 				D3DUSAGE_WRITEONLY,
 				Vertex::FVF,
 				D3DPOOL_MANAGED,
@@ -100,9 +100,9 @@ public:
 				0);
 
 			Vertex* v = nullptr;
-			dx9::CHECK_HR = vbMirror_->Lock(0, 0, (void**)&v, 0);
+			d3d9::CHECK_HR = vbMirror_->Lock(0, 0, (void**)&v, 0);
 			memcpy(v, &n[0], sizeof(n));
-			dx9::CHECK_HR = vbMirror_->Unlock();
+			d3d9::CHECK_HR = vbMirror_->Unlock();
 		}
 		// floor
 		{
@@ -115,7 +115,7 @@ public:
 			vbDesc.SetTransform(m);
 			GeometryGen::GenPlane(15, 10, 2, 2, vbDesc, GeometryGen::IBDesc((uint8*)&i[0], GeometryGen::IBDesc::Index16), GeometryGen::VT_Position | GeometryGen::VT_Normal | GeometryGen::VT_UV);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->CreateVertexBuffer(sizeof(n),
+			d3d9::CHECK_HR = d3d9::g_pD3DD->CreateVertexBuffer(sizeof(n),
 				D3DUSAGE_WRITEONLY,
 				Vertex::FVF,
 				D3DPOOL_MANAGED,
@@ -123,24 +123,24 @@ public:
 				0);
 
 			Vertex* v = nullptr;
-			dx9::CHECK_HR = vbFloor_->Lock(0, 0, (void**)&v, 0);
+			d3d9::CHECK_HR = vbFloor_->Lock(0, 0, (void**)&v, 0);
 			memcpy(v, &n[0], sizeof(n));
-			dx9::CHECK_HR = vbFloor_->Unlock();
+			d3d9::CHECK_HR = vbFloor_->Unlock();
 			
-			dx9::CHECK_HR = dx9::g_pD3DD->CreateIndexBuffer(sizeof(i),
+			d3d9::CHECK_HR = d3d9::g_pD3DD->CreateIndexBuffer(sizeof(i),
 				D3DUSAGE_WRITEONLY,
 				D3DFMT_INDEX16,
 				D3DPOOL_MANAGED,
 				&ibFloor_,
 				0);
 			WORD* w = nullptr;
-			dx9::CHECK_HR = ibFloor_->Lock(0, 0, (void**)&w, 0);
+			d3d9::CHECK_HR = ibFloor_->Lock(0, 0, (void**)&w, 0);
 			memcpy(w, &i[0], sizeof(i));
-			dx9::CHECK_HR = ibFloor_->Unlock();
+			d3d9::CHECK_HR = ibFloor_->Unlock();
 		}
 
 		// teapot
-		dx9::CHECK_HR = D3DXCreateTeapot(dx9::g_pD3DD, &teapot_, 0);
+		d3d9::CHECK_HR = D3DXCreateTeapot(d3d9::g_pD3DD, &teapot_, 0);
 		GenMaterial(teapotMat_, yellow, yellow, yellow, black, 2.0f);
 		teapotPos_.x = 0.0f;
 		teapotPos_.y = 3.0f;
@@ -159,21 +159,21 @@ public:
 		GenMaterial(wallMat_, white, white, white * 0.2f, black, 2.0f);
 
 		// set and enable light
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light);
-		dx9::CHECK_HR = dx9::g_pD3DD->LightEnable(0, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetLight(0, &light);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->LightEnable(0, true);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
 
 		// load textures
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD, "checker.jpg", &texChecker_);
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD, "brick0.jpg", &texBrick_);
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD, "ice.bmp", &texIce_);
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD, "checker.jpg", &texChecker_);
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD, "brick0.jpg", &texBrick_);
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD, "ice.bmp", &texIce_);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 		// view
 		D3DXVECTOR3 pos(-10.0f, 3.0f, -15.0f);
@@ -181,7 +181,7 @@ public:
 		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 		D3DXMATRIX view;
 		D3DXMatrixLookAtLH(&view, &pos, &target, &up);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// projection
 		D3DXMATRIX proj;
@@ -190,12 +190,12 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			ts_ = timestep.GetSeconds();
 
@@ -204,17 +204,17 @@ public:
 			D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 			D3DXMATRIX view;
 			D3DXMatrixLookAtLH(&view, &position, &target, &up);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0xffffffff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0xffffffff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 			RenderScene();
 
 			RenderMirror();
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 
@@ -259,36 +259,36 @@ public:
 		D3DXMATRIX m;
 
 		// draw teapot
-		dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&teapotMat_);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, 0);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&teapotMat_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, 0);
 		D3DXMatrixTranslation(&m, teapotPos_.x, teapotPos_.y, teapotPos_.z);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_WORLD, &m);
-		dx9::CHECK_HR = teapot_->DrawSubset(0);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_WORLD, &m);
+		d3d9::CHECK_HR = teapot_->DrawSubset(0);
 
 		D3DXMatrixIdentity(&m);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_WORLD, &m);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_WORLD, &m);
 
 		// draw wall
-		dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&wallMat_);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, texBrick_);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetFVF(Vertex::FVF);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetStreamSource(0, vbWall_, 0, sizeof(Vertex));
-		dx9::CHECK_HR = dx9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 4);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&wallMat_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, texBrick_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetFVF(Vertex::FVF);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetStreamSource(0, vbWall_, 0, sizeof(Vertex));
+		d3d9::CHECK_HR = d3d9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 4);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&whiteMat_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&whiteMat_);
 
 		// draw mirror
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, texIce_);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetFVF(Vertex::FVF);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetStreamSource(0, vbMirror_, 0, sizeof(Vertex));
-		dx9::CHECK_HR = dx9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, texIce_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetFVF(Vertex::FVF);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetStreamSource(0, vbMirror_, 0, sizeof(Vertex));
+		d3d9::CHECK_HR = d3d9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
 
 		// draw floor
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, texChecker_);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetFVF(Vertex::FVF);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetStreamSource(0, vbFloor_, 0, sizeof(Vertex));
-		dx9::CHECK_HR = dx9::g_pD3DD->SetIndices(ibFloor_);
-		dx9::CHECK_HR = dx9::g_pD3DD->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, texChecker_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetFVF(Vertex::FVF);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetStreamSource(0, vbFloor_, 0, sizeof(Vertex));
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetIndices(ibFloor_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
 	}
 
 	void RenderMirror()
@@ -300,42 +300,42 @@ public:
 		// 3. gen reflect matrix
 		// 3. draw teapot 
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILENABLE, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS); // always success
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILREF, 0x1); // when success, write 1 to stencil buffer
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILENABLE, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS); // always success
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILREF, 0x1); // when success, write 1 to stencil buffer
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
 
 		// disable write to depth and back buffers
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_ZWRITEENABLE, false);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_ZWRITEENABLE, false);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 		// draw mirror for mark stencil region to 1
-		dx9::CHECK_HR = dx9::g_pD3DD->SetStreamSource(0, vbMirror_, 0, sizeof(Vertex));
-		dx9::CHECK_HR = dx9::g_pD3DD->SetFVF(Vertex::FVF);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&whiteMat_);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, texIce_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetStreamSource(0, vbMirror_, 0, sizeof(Vertex));
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetFVF(Vertex::FVF);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&whiteMat_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, texIce_);
 		D3DXMATRIX m;
 		D3DXMatrixIdentity(&m);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_WORLD, &m);
-		dx9::CHECK_HR = dx9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_WORLD, &m);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
 
 		// draw teapot
 
 		// mark =1 of stencil need render
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_ZWRITEENABLE, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_KEEP);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_ZWRITEENABLE, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_KEEP);
 
 		// clear z buffer, and blend reflected teapot with mirror
-		dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_ZBUFFER, 0, 1.0f, 0);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_ZBUFFER, 0, 1.0f, 0);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
 
 		D3DXMATRIX rxy;
 		D3DXPLANE plane(0.0f, 0.0f, 1.0f, 0.0f); // x-y plane
@@ -343,17 +343,17 @@ public:
 		D3DXMATRIX trans;
 		D3DXMatrixTranslation(&trans, teapotPos_.x, teapotPos_.y, teapotPos_.z);
 		m = trans * rxy;
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_WORLD, &m);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&teapotMat_);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTexture(0, 0);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_WORLD, &m);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&teapotMat_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTexture(0, 0);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 		teapot_->DrawSubset(0);
 
 		// restore states
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_STENCILENABLE, false);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_STENCILENABLE, false);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	}
 
 	virtual void OnDestroy()

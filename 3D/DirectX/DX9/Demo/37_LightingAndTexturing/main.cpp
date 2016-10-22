@@ -4,10 +4,10 @@
 #include "core/log.h"
 #include "core/input_state.h"
 #include "utils/demo_app.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 using namespace sims;
 
-class LightingAndTexturing : public DemoApp<dx9::Window>
+class LightingAndTexturing : public DemoApp<d3d9::Window>
 {
 public:
 	LightingAndTexturing()
@@ -22,10 +22,10 @@ public:
 		ID3DXBuffer* mtrlBuffer = nullptr;
 		DWORD numMtrls = 0;
 
-		dx9::CHECK_HR = D3DXLoadMeshFromX(
+		d3d9::CHECK_HR = D3DXLoadMeshFromX(
 			"mountain.x",
 			D3DXMESH_MANAGED,
-			dx9::g_pD3DD,
+			d3d9::g_pD3DD,
 			0,
 			&mtrlBuffer,
 			0,
@@ -46,7 +46,7 @@ public:
 				IDirect3DTexture9* tex = nullptr;
 				if (mtrls[i].pTextureFilename != nullptr)
 				{
-					dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD,
+					d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD,
 						mtrls[i].pTextureFilename,
 						&tex);
 				}
@@ -57,7 +57,7 @@ public:
 
 		// create effect
 		ID3DXBuffer* errorBuffer = nullptr;
-		dx9::CHECK_HR = D3DXCreateEffectFromFile(dx9::g_pD3DD,
+		d3d9::CHECK_HR = D3DXCreateEffectFromFile(d3d9::g_pD3DD,
 			"light_tex.fx",
 			0,
 			0,
@@ -101,14 +101,14 @@ public:
 
 		// texture
 		IDirect3DTexture9* tex = nullptr;
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(dx9::g_pD3DD, "Terrain_3x_diffcol.jpg", &tex);
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(d3d9::g_pD3DD, "Terrain_3x_diffcol.jpg", &tex);
 		lightTexEffect_->SetTexture(texH_, tex);
 		SAFE_RELEASE(tex);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			// update scene
 			static float angle = (3.0f * D3DX_PI) / 2.0f;
@@ -133,13 +133,13 @@ public:
 			lightTexEffect_->SetMatrix(viewMatrixH_, &view);
 
 			// active the technique and render
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 			// set technique to use
-			dx9::CHECK_HR = lightTexEffect_->SetTechnique(lightTexTechH_);
+			d3d9::CHECK_HR = lightTexEffect_->SetTechnique(lightTexTechH_);
 			UINT numPasses = 0;
-			dx9::CHECK_HR = lightTexEffect_->Begin(&numPasses, 0);
+			d3d9::CHECK_HR = lightTexEffect_->Begin(&numPasses, 0);
 
 			for (int i = 0; i < numPasses; ++i)
 			{
@@ -151,10 +151,10 @@ public:
 				lightTexEffect_->EndPass();
 			}
 
-			dx9::CHECK_HR = lightTexEffect_->End();
+			d3d9::CHECK_HR = lightTexEffect_->End();
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

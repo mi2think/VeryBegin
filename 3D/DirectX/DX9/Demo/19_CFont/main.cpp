@@ -1,6 +1,6 @@
 #include "sims.h"
 #include "core/log.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 #include "utils/demo_app.h"
 
 #include "d3dutil.h"
@@ -8,7 +8,7 @@
 
 using namespace sims;
 
-class CFont : public DemoApp<dx9::Window>
+class CFont : public DemoApp<d3d9::Window>
 {
 public:
 	CFont() 
@@ -20,10 +20,10 @@ public:
 
 	virtual void OnCreate()
 	{
-		DemoApp<dx9::Window>::OnCreate();
+		DemoApp<d3d9::Window>::OnCreate();
 
 		font_ = new CD3DFont("Times New Roman", 16, 0);
-		font_->InitDeviceObjects(dx9::g_pD3DD);
+		font_->InitDeviceObjects(d3d9::g_pD3DD);
 		font_->RestoreDeviceObjects();
 	}
 
@@ -39,7 +39,7 @@ public:
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			++frameCount_;
 			timeElapsed_ += timestep.GetSeconds();
@@ -50,16 +50,16 @@ public:
 				timeElapsed_ = 0.0f;
 			}
 
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 			if (font_)
 			{
 				font_->DrawText(20, 20, 0xff000000, str_format("%f", fps_));
 			}
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

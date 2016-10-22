@@ -1,10 +1,10 @@
 #include "sims.h"
 #include "core/log.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 #include "utils/demo_app.h"
 using namespace sims;
 
-class D3DXCreate : public DemoApp<dx9::Window>
+class D3DXCreate : public DemoApp<d3d9::Window>
 {
 public:
 	D3DXCreate()
@@ -14,14 +14,14 @@ public:
 
 	virtual void OnCreate()
 	{
-		DemoApp<dx9::Window>::OnCreate();
+		DemoApp<d3d9::Window>::OnCreate();
 
 		// create obj
-		dx9::CHECK_HR = D3DXCreateTeapot(dx9::g_pD3DD, &objs_[0], 0);
-		dx9::CHECK_HR = D3DXCreateBox(dx9::g_pD3DD, 2.0f, 2.0f, 2.0f, &objs_[1], 0);
-		dx9::CHECK_HR = D3DXCreateCylinder(dx9::g_pD3DD, 1.0f, 1.0f, 3.0f, 10, 10, &objs_[2], 0);
-		dx9::CHECK_HR = D3DXCreateTorus(dx9::g_pD3DD, 1.0f, 3.0f, 10, 10, &objs_[3], 0);
-		dx9::CHECK_HR = D3DXCreateSphere(dx9::g_pD3DD, 1.0f, 10, 10, &objs_[4], 0);
+		d3d9::CHECK_HR = D3DXCreateTeapot(d3d9::g_pD3DD, &objs_[0], 0);
+		d3d9::CHECK_HR = D3DXCreateBox(d3d9::g_pD3DD, 2.0f, 2.0f, 2.0f, &objs_[1], 0);
+		d3d9::CHECK_HR = D3DXCreateCylinder(d3d9::g_pD3DD, 1.0f, 1.0f, 3.0f, 10, 10, &objs_[2], 0);
+		d3d9::CHECK_HR = D3DXCreateTorus(d3d9::g_pD3DD, 1.0f, 3.0f, 10, 10, &objs_[3], 0);
+		d3d9::CHECK_HR = D3DXCreateSphere(d3d9::g_pD3DD, 1.0f, 10, 10, &objs_[4], 0);
 
 		// build matrix
 		D3DXMatrixTranslation(&matrixs_[0], 0.0f, 0.0f, 0.0f);
@@ -37,15 +37,15 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 
 		// wireframe
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			// animate camera:
 			// camera will circle around the center of scene
@@ -58,7 +58,7 @@ public:
 			D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 			D3DXMATRIX view;
 			D3DXMatrixLookAtLH(&view, &position, &target, &up);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 			
 			angle += timestep.GetSeconds();
 			if (angle >= 2 * D3DX_PI)
@@ -72,17 +72,17 @@ public:
 				cameraHOffset = 5.0f;
 
 			// draw the scene
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 			for (int i = 0; i < OBJ_NUM; ++i)
 			{
-				dx9::g_pD3DD->SetTransform(D3DTS_WORLD, &matrixs_[i]);
+				d3d9::g_pD3DD->SetTransform(D3DTS_WORLD, &matrixs_[i]);
 				objs_[i]->DrawSubset(0);
 			}
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

@@ -29,13 +29,13 @@ bool ParticleSystem::Init(IDirect3DDevice9* device, const char* texFilename)
 {
 	device_ = device;
 
-	dx9::CHECK_HR = device_->CreateVertexBuffer(vbSize_ * sizeof(Particle),
+	d3d9::CHECK_HR = device_->CreateVertexBuffer(vbSize_ * sizeof(Particle),
 		D3DUSAGE_DYNAMIC | D3DUSAGE_POINTS | D3DUSAGE_WRITEONLY,
 		Particle::FVF,
 		D3DPOOL_DEFAULT,
 		&vb_,
 		0);
-	dx9::CHECK_HR = D3DXCreateTextureFromFile(device_, texFilename, &texture_);
+	d3d9::CHECK_HR = D3DXCreateTextureFromFile(device_, texFilename, &texture_);
 	return true;
 }
 
@@ -56,35 +56,35 @@ void ParticleSystem::AddParticle()
 
 void ParticleSystem::PreRender()
 {
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_LIGHTING, false);
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_LIGHTING, false);
 	// texture coordinates of point primitives are set so that full textures are mapped on each point
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
 	// the point size is interpreted as a camera space value and is scaled by the distance function,
 	// and the frustum to viewport y-axis scaling to compute the final screen-space point size. 
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSCALEENABLE, true);
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSIZE, RSFLOAT_CAST(size_));
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSIZE_MIN, RSFLOAT_CAST(0.0f));
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSCALEENABLE, true);
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSIZE, RSFLOAT_CAST(size_));
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSIZE_MIN, RSFLOAT_CAST(0.0f));
 
 	// control size of particle relative to distance
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSCALE_A, RSFLOAT_CAST(0.0f));
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSCALE_B, RSFLOAT_CAST(0.0f));
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSCALE_C, RSFLOAT_CAST(1.0f));
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSCALE_A, RSFLOAT_CAST(0.0f));
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSCALE_B, RSFLOAT_CAST(0.0f));
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSCALE_C, RSFLOAT_CAST(1.0f));
 
 	// use alpha from texture
-	dx9::CHECK_HR = device_->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-	dx9::CHECK_HR = device_->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	d3d9::CHECK_HR = device_->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	d3d9::CHECK_HR = device_->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
 
 void ParticleSystem::PostRender()
 {
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_LIGHTING, true);
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSCALEENABLE, false);
-	dx9::CHECK_HR = device_->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_LIGHTING, true);
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_POINTSCALEENABLE, false);
+	d3d9::CHECK_HR = device_->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 }
 
 void ParticleSystem::Render()
@@ -100,9 +100,9 @@ void ParticleSystem::Render()
 	{
 		PreRender();
 
-		dx9::CHECK_HR = device_->SetTexture(0, texture_);
-		dx9::CHECK_HR = device_->SetFVF(Particle::FVF);
-		dx9::CHECK_HR = device_->SetStreamSource(0, vb_, 0, sizeof(Particle));
+		d3d9::CHECK_HR = device_->SetTexture(0, texture_);
+		d3d9::CHECK_HR = device_->SetFVF(Particle::FVF);
+		d3d9::CHECK_HR = device_->SetStreamSource(0, vb_, 0, sizeof(Particle));
 
 		// render batches one by one
 
@@ -112,7 +112,7 @@ void ParticleSystem::Render()
 			vbOffset_ = 0;
 
 		Particle* v = nullptr;
-		dx9::CHECK_HR = vb_->Lock(vbOffset_ * sizeof(Particle),
+		d3d9::CHECK_HR = vb_->Lock(vbOffset_ * sizeof(Particle),
 			vbBatchSize_ * sizeof(Particle),
 			(void**)&v,
 			vbOffset_ ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD);
@@ -134,9 +134,9 @@ void ParticleSystem::Render()
 				{
 					// draw the last batch of particles that was
 					// copied to the vertex buffer
-					dx9::CHECK_HR = vb_->Unlock();
+					d3d9::CHECK_HR = vb_->Unlock();
 
-					dx9::CHECK_HR = device_->DrawPrimitive(D3DPT_POINTLIST,
+					d3d9::CHECK_HR = device_->DrawPrimitive(D3DPT_POINTLIST,
 						vbOffset_, // vertex offset, not bytes
 						vbBatchSize_);
 
@@ -150,7 +150,7 @@ void ParticleSystem::Render()
 					if (vbOffset_ >= vbSize_)
 						vbOffset_ = 0;
 
-					dx9::CHECK_HR = vb_->Lock(vbOffset_ * sizeof(Particle),
+					d3d9::CHECK_HR = vb_->Lock(vbOffset_ * sizeof(Particle),
 						vbBatchSize_ * sizeof(Particle),
 						(void**)&v,
 						vbOffset_ ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD);
@@ -159,14 +159,14 @@ void ParticleSystem::Render()
 				}
 			}
 		}
-		dx9::CHECK_HR = vb_->Unlock();
+		d3d9::CHECK_HR = vb_->Unlock();
 
 		// it's possible that the Last batch being filled never got rendered.
 		// because the condition numParticlesInBatch == vbBatchSize_ would not have been satisfied.
 		// we draw the last partially filled batch now
 		if (numParticlesInBatch > 0)
 		{
-			dx9::CHECK_HR = device_->DrawPrimitive(D3DPT_POINTLIST,
+			d3d9::CHECK_HR = device_->DrawPrimitive(D3DPT_POINTLIST,
 				vbOffset_,
 				numParticlesInBatch);
 		}

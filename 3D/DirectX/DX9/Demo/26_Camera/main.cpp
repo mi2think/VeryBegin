@@ -6,7 +6,7 @@
 #include "core/log.h"
 #include "core/key_event.h"
 #include "core/input_state.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 #include "utils/demo_app.h"
 using namespace sims;
 
@@ -150,24 +150,24 @@ void DrawBasicScene(IDirect3DDevice9* device, float scale)
 	}
 	else if (!floor && !tex && !pillar)
 	{
-		dx9::CHECK_HR = device->CreateVertexBuffer(6 * sizeof(dx9::VertexUVN),
+		d3d9::CHECK_HR = device->CreateVertexBuffer(6 * sizeof(d3d9::VertexUVN),
 			0,
-			dx9::VertexUVN::FVF,
+			d3d9::VertexUVN::FVF,
 			D3DPOOL_MANAGED,
 			&floor,
 			0);
-		dx9::VertexUVN* v = nullptr;
-		dx9::CHECK_HR = floor->Lock(0, 0, (void**)&v, 0);
-		v[0] = dx9::VertexUVN(Vector3f(-20.0f, -2.5f, -20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(0.0f, 1.0f));
-		v[1] = dx9::VertexUVN(Vector3f(-20.0f, -2.5f,  20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(0.0f, 0.0f));
-		v[2] = dx9::VertexUVN(Vector3f( 20.0f, -2.5f,  20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(1.0f, 0.0f));
+		d3d9::VertexUVN* v = nullptr;
+		d3d9::CHECK_HR = floor->Lock(0, 0, (void**)&v, 0);
+		v[0] = d3d9::VertexUVN(Vector3f(-20.0f, -2.5f, -20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(0.0f, 1.0f));
+		v[1] = d3d9::VertexUVN(Vector3f(-20.0f, -2.5f,  20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(0.0f, 0.0f));
+		v[2] = d3d9::VertexUVN(Vector3f( 20.0f, -2.5f,  20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(1.0f, 0.0f));
 
-		v[3] = dx9::VertexUVN(Vector3f(-20.0f, -2.5f, -20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(0.0f, 1.0f));
-		v[4] = dx9::VertexUVN(Vector3f( 20.0f, -2.5f,  20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(1.0f, 0.0f));
-		v[5] = dx9::VertexUVN(Vector3f( 20.0f, -2.5f, -20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(1.0f, 1.0f));
-		dx9::CHECK_HR = floor->Unlock();
+		v[3] = d3d9::VertexUVN(Vector3f(-20.0f, -2.5f, -20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(0.0f, 1.0f));
+		v[4] = d3d9::VertexUVN(Vector3f( 20.0f, -2.5f,  20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(1.0f, 0.0f));
+		v[5] = d3d9::VertexUVN(Vector3f( 20.0f, -2.5f, -20.0f), Vector3f(0.0f, 1.0f, 0.0f), Vector2f(1.0f, 1.0f));
+		d3d9::CHECK_HR = floor->Unlock();
 
-		dx9::CHECK_HR = D3DXCreateCylinder(device,
+		d3d9::CHECK_HR = D3DXCreateCylinder(device,
 			0.5f,
 			0.5f,
 			5.0f,
@@ -175,16 +175,16 @@ void DrawBasicScene(IDirect3DDevice9* device, float scale)
 			20,
 			&pillar,
 			0);
-		dx9::CHECK_HR = D3DXCreateTextureFromFile(device,
+		d3d9::CHECK_HR = D3DXCreateTextureFromFile(device,
 			"desert.bmp",
 			&tex);
 	}
 	else
 	{
 		// pre-render setup
-		dx9::CHECK_HR = device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		dx9::CHECK_HR = device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		d3d9::CHECK_HR = device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 		// setup directional light
 		D3DLIGHT9 light;
@@ -195,11 +195,11 @@ void DrawBasicScene(IDirect3DDevice9* device, float scale)
 		light.Ambient = white * 0.4f;
 		light.Direction = D3DXVECTOR3(0.707f, -0.707f, 0.707f);
 
-		dx9::CHECK_HR = device->SetLight(0, &light);
-		dx9::CHECK_HR = device->LightEnable(0, true);
-		dx9::CHECK_HR = device->SetRenderState(D3DRS_LIGHTING, true);
-		dx9::CHECK_HR = device->SetRenderState(D3DRS_SPECULARENABLE, true);
-		dx9::CHECK_HR = device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+		d3d9::CHECK_HR = device->SetLight(0, &light);
+		d3d9::CHECK_HR = device->LightEnable(0, true);
+		d3d9::CHECK_HR = device->SetRenderState(D3DRS_LIGHTING, true);
+		d3d9::CHECK_HR = device->SetRenderState(D3DRS_SPECULARENABLE, true);
+		d3d9::CHECK_HR = device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 
 		// render
 		D3DXMATRIX T, R, P, S;
@@ -209,30 +209,30 @@ void DrawBasicScene(IDirect3DDevice9* device, float scale)
 		// draw floor
 		D3DXMatrixIdentity(&T);
 		T = T * S;
-		dx9::CHECK_HR = device->SetTransform(D3DTS_WORLD, &T);
+		d3d9::CHECK_HR = device->SetTransform(D3DTS_WORLD, &T);
 		D3DMATERIAL9 whiteMtrl;
 		GenMaterial(whiteMtrl, white, white, white, black, 2.0f);
-		dx9::CHECK_HR = device->SetMaterial(&whiteMtrl);
-		dx9::CHECK_HR = device->SetTexture(0, tex);
-		dx9::CHECK_HR = device->SetStreamSource(0, floor, 0, sizeof(dx9::VertexUVN));
-		dx9::CHECK_HR = device->SetFVF(dx9::VertexUVN::FVF);
-		dx9::CHECK_HR = device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
+		d3d9::CHECK_HR = device->SetMaterial(&whiteMtrl);
+		d3d9::CHECK_HR = device->SetTexture(0, tex);
+		d3d9::CHECK_HR = device->SetStreamSource(0, floor, 0, sizeof(d3d9::VertexUVN));
+		d3d9::CHECK_HR = device->SetFVF(d3d9::VertexUVN::FVF);
+		d3d9::CHECK_HR = device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
 
 		// draw pillars
 		D3DMATERIAL9 blueMtrl;
 		GenMaterial(blueMtrl, blue, blue, blue, black, 2.0f);
-		dx9::CHECK_HR = device->SetMaterial(&blueMtrl);
-		dx9::CHECK_HR = device->SetTexture(0, 0);
+		d3d9::CHECK_HR = device->SetMaterial(&blueMtrl);
+		d3d9::CHECK_HR = device->SetTexture(0, 0);
 		for (int i = 0; i < 5; ++i)
 		{
 			D3DXMatrixTranslation(&T, -5.0f, 0.0f, -15.0f + (i * 7.5f));
 			P = R * T * S;
-			dx9::CHECK_HR = device->SetTransform(D3DTS_WORLD, &P);
+			d3d9::CHECK_HR = device->SetTransform(D3DTS_WORLD, &P);
 			pillar->DrawSubset(0);
 
 			D3DXMatrixTranslation(&T, 5.0f, 0.0f, -15.0f + (i * 7.5f));
 			P = R * T * S;
-			dx9::CHECK_HR = device->SetTransform(D3DTS_WORLD, &P);
+			d3d9::CHECK_HR = device->SetTransform(D3DTS_WORLD, &P);
 			pillar->DrawSubset(0);
 		}
 	}
@@ -240,16 +240,16 @@ void DrawBasicScene(IDirect3DDevice9* device, float scale)
 
 //////////////////////////////////////////////////////////////////////////
 
-class CameraApp : public DemoApp<dx9::Window>
+class CameraApp : public DemoApp<d3d9::Window>
 {
 public:
 	CameraApp() : ts_(0), camera_(Camera::Aircraft) {}
 
 	virtual void OnCreate()
 	{
-		DemoApp<dx9::Window>::OnCreate();
+		DemoApp<d3d9::Window>::OnCreate();
 
-		DrawBasicScene(dx9::g_pD3DD, 0.0f);
+		DrawBasicScene(d3d9::g_pD3DD, 0.0f);
 
 		// projection
 		D3DXMATRIX proj;
@@ -258,12 +258,12 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 	}
 
 	virtual void OnRender(const Timestep& timestep)
 	{
-		if (dx9::g_pD3DD)
+		if (d3d9::g_pD3DD)
 		{
 			ts_ = timestep.GetSeconds();
 
@@ -294,15 +294,15 @@ public:
 
 			D3DXMATRIX view;
 			camera_.GetViewMatrix(&view);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0);
-			dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
-			DrawBasicScene(dx9::g_pD3DD, 1.0f);
+			DrawBasicScene(d3d9::g_pD3DD, 1.0f);
 
-			dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-			dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+			d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 		}
 	}
 

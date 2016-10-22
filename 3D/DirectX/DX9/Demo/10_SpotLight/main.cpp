@@ -1,7 +1,7 @@
 #include "sims.h"
 #include "core/log.h"
 #include "core/key_event.h"
-#include "graphics_api/sims_sdk_dx9.h"
+#include "graphics_api/sims_sdk_d3d9.h"
 #include "utils/demo_app.h"
 using namespace sims;
 
@@ -14,7 +14,7 @@ using namespace sims;
 
 #define GenMaterial(m, a, d, s, e, p) { m.Ambient = a; m.Diffuse = d, m.Specular = s; m.Emissive = e; m.Power = p; } 
 
-class SpotLight : public DemoApp<dx9::Window>
+class SpotLight : public DemoApp<d3d9::Window>
 {
 public:
 	SpotLight()
@@ -25,13 +25,13 @@ public:
 
 	virtual void OnCreate()
 	{
-		DemoApp<dx9::Window>::OnCreate();
+		DemoApp<d3d9::Window>::OnCreate();
 
 		// create obj
-		dx9::CHECK_HR = D3DXCreateTeapot(dx9::g_pD3DD, &objs_[0], 0);
-		dx9::CHECK_HR = D3DXCreateSphere(dx9::g_pD3DD, 1.0f, 20, 20, &objs_[1], 0);
-		dx9::CHECK_HR = D3DXCreateTorus(dx9::g_pD3DD, 0.5f, 1.0f, 20, 20, &objs_[2], 0);
-		dx9::CHECK_HR = D3DXCreateCylinder(dx9::g_pD3DD, 0.5f, 0.5f, 2.0f, 20, 20, &objs_[3], 0);
+		d3d9::CHECK_HR = D3DXCreateTeapot(d3d9::g_pD3DD, &objs_[0], 0);
+		d3d9::CHECK_HR = D3DXCreateSphere(d3d9::g_pD3DD, 1.0f, 20, 20, &objs_[1], 0);
+		d3d9::CHECK_HR = D3DXCreateTorus(d3d9::g_pD3DD, 0.5f, 1.0f, 20, 20, &objs_[2], 0);
+		d3d9::CHECK_HR = D3DXCreateCylinder(d3d9::g_pD3DD, 0.5f, 0.5f, 2.0f, 20, 20, &objs_[3], 0);
 
 		// build world matrix
 		D3DXMatrixTranslation(&mtxs_[0], 0.0f, 2.0f, 0.0f);
@@ -65,12 +65,12 @@ public:
 		light_.Phi = 0.9f;
 
 		// set and enable light_
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light_);
-		dx9::CHECK_HR = dx9::g_pD3DD->LightEnable(0, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_LIGHTING, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetLight(0, &light_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->LightEnable(0, true);
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetRenderState(D3DRS_SPECULARENABLE, true);
 
 		// view
 		D3DXVECTOR3 position(0.0f, 0.0f, -5.0f);
@@ -78,7 +78,7 @@ public:
 		D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 		D3DXMATRIX view;
 		D3DXMatrixLookAtLH(&view, &position, &target, &up);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_VIEW, &view);
 
 		// projection
 		D3DXMATRIX proj;
@@ -87,7 +87,7 @@ public:
 			(float)width_ / height_,
 			1.0f,
 			1000.0f);
-		dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_PROJECTION, &proj);
 	}
 
 	virtual bool OnEvent(const Event& event)
@@ -118,8 +118,8 @@ public:
 			break;
 		}
 
-		dx9::CHECK_HR = dx9::g_pD3DD->SetLight(0, &light_);
-		dx9::CHECK_HR = dx9::g_pD3DD->LightEnable(0, true);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->SetLight(0, &light_);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->LightEnable(0, true);
 		return true;
 	}
 
@@ -128,18 +128,18 @@ public:
 		ts_ = timestep.GetSeconds();
 
 		// draw scene
-		dx9::CHECK_HR = dx9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0);
-		dx9::CHECK_HR = dx9::g_pD3DD->BeginScene();
+		d3d9::CHECK_HR = d3d9::g_pD3DD->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0x00000000, 1.0f, 0);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->BeginScene();
 
 		for (int i = 0; i < MAX_OBJS; ++i)
 		{
-			dx9::CHECK_HR = dx9::g_pD3DD->SetMaterial(&mtrls_[i]);
-			dx9::CHECK_HR = dx9::g_pD3DD->SetTransform(D3DTS_WORLD, &mtxs_[i]);
-			dx9::CHECK_HR = objs_[i]->DrawSubset(0);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetMaterial(&mtrls_[i]);
+			d3d9::CHECK_HR = d3d9::g_pD3DD->SetTransform(D3DTS_WORLD, &mtxs_[i]);
+			d3d9::CHECK_HR = objs_[i]->DrawSubset(0);
 		}
 
-		dx9::CHECK_HR = dx9::g_pD3DD->EndScene();
-		dx9::CHECK_HR = dx9::g_pD3DD->Present(0, 0, 0, 0);
+		d3d9::CHECK_HR = d3d9::g_pD3DD->EndScene();
+		d3d9::CHECK_HR = d3d9::g_pD3DD->Present(0, 0, 0, 0);
 	}
 
 	virtual void OnDestroy()
