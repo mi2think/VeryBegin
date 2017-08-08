@@ -73,5 +73,6 @@ inline void print_stack(lua_State* L)
 void luac_00();
 void luac_01();
 void luac_02();
+void luac_gc();
 
 #endif
