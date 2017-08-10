@@ -79,6 +79,10 @@
     <None Include="scripts\case10_env.lua" />
     <None Include="scripts\case11_modules.lua" />
     <None Include="scripts\case12_oo.lua" />
+    <None Include="scripts\case13_weaktable.lua" />
+    <None Include="scripts\complex.lua" />
+    <None Include="scripts\luac_01.lua" />
+    <None Include="scripts\luac_02.lua" />
     <None Include="scripts\luac_gc.lua" />
   </ItemGroup>
   <ItemGroup>

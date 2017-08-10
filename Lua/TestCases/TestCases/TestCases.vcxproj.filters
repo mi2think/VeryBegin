@@ -42,6 +42,18 @@
     <None Include="scripts\luac_gc.lua">
       <Filter>scripts</Filter>
     </None>
+    <None Include="scripts\luac_01.lua">
+      <Filter>scripts</Filter>
+    </None>
+    <None Include="scripts\luac_02.lua">
+      <Filter>scripts</Filter>
+    </None>
+    <None Include="scripts\complex.lua">
+      <Filter>scripts</Filter>
+    </None>
+    <None Include="scripts\case13_weaktable.lua">
+      <Filter>scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="scripts\case06_compilation.lua">
