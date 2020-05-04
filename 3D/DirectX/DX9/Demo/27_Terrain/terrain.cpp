@@ -67,9 +67,9 @@ bool Terrain::ReadRawFile(const string& heightMapFilename)
 	auto stream = fs->OpenInputStream(heightMapFilename);
 	ASSERT(stream);
 
-	vector<uint8> buffer = stream->Read();
-	heightmap_.resize(buffer.size());
-	for (uint32 i = 0; i < buffer.size(); ++i)
+	Buffer buffer = stream->Read();
+	heightmap_.resize(buffer.GetSize());
+	for (uint32 i = 0; i < buffer.GetSize(); ++i)
 	{
 		heightmap_[i] = buffer[i];
 	}

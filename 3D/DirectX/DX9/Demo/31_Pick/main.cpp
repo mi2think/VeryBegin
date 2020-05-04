@@ -158,7 +158,7 @@ public:
 
 			// test for hit
 			float t = 0.0f;
-			if (Intersect(rayt, boundSphere, t))
+			if (Intersect(boundSphere, rayt, t))
 			{
 				LOG_INFO("hit: %d, %d", event.GetX(), event.GetY());
 			}
